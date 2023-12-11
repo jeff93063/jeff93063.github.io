@@ -1,0 +1,8 @@
+*##*:style(font-size:20px ! important; line-height:23px ! important;)
+
+! 2023-12-06 https://m.slashdot.org
+m.slashdot.org##.close-ad
+
+! 2023-12-07 https://m.slashdot.org
+m.slashdot.org##.comment-body:style(overflow:hidden !important)
+
