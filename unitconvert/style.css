@@ -1,0 +1,88 @@
+@font-face { font-family: cascadia-mono; src: url('CascadiaMono-Regular.otf'); }
+body { background-color: #606060; }
+div#overallContainer {
+	position:absolute;
+	left:0px;
+	right:0px;
+	display:grid;
+	margin:.5rem;
+	gap:.5rem;
+}
+div#gridContainer {
+	/*position:absolute;
+	margin: .5rem;
+	top:50%;
+	left:0px;
+	right:0px;
+	transform: translateY(-50%);*/
+	display:grid;
+	gap:.5rem;
+}
+div#numpad {
+	display:none;
+	/*display:grid;*/
+	gap:.2rem;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr;
+}
+button {
+	/*aspect-ratio: 1;*/
+	background-color: #303030;
+	color:#ffffff;
+	border:0px;
+	border-radius: .5rem;
+}
+button.span2row {
+	grid-row: span 2;
+	aspect-ratio: unset;
+}
+button.span2col {
+	grid-column: span 2;
+	aspect-ratio: unset;
+}
+input {
+	appearance:unset;
+	box-sizing: border-box; /*fixes the problem where the 100% width with padding overlaps the container*/
+	min-width:5rem;
+	background-color: #000000;
+	color: #ffffff;
+	/*width:100%;*/
+	font-family:cascadia-mono, monospace;
+	border:0px;
+	border-radius:.5rem;
+	padding:.5rem;
+}
+select {
+	background-color:#000000;
+	color:#ffffff;
+	min-width:5rem;
+	width:100%;
+	border:0px;
+	border-radius:.5rem;
+	padding:.5rem;
+	/* fixes problem where neutralinojs shows SELECT elements with a native-looking overlay and ignores css background color */
+	appearance:unset;
+	padding-right:1rem;
+	background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>"); 
+	background-repeat: no-repeat;
+	background-position-x: 100%;
+	background-position-y: 50%;
+}
+@media (orientation: portrait) {
+	input { font-size: 8vw; }
+	div#gridContainer { grid-template-columns: auto auto; grid-template-rows: auto auto auto; }
+	select#unitType { grid-column: 1/3; }
+	select { font-size: 8vw; }
+	div#overallContainer { grid-template-rows: auto auto; top:50%; transform:translateY(-50%); }
+	div#numpad { height:calc(100vw - 1rem); }
+	div#numpad button{ font-size:8vw; }
+}
+@media (orientation: landscape) {
+	input { font-size: 8vh; }
+	div#gridContainer { grid-template-columns: auto auto; grid-template-rows: auto auto auto; }
+	select#unitType { grid-column: 1/3; }
+	select { font-size: 8vh; }
+	div#overallContainer { grid-template-columns: 1fr auto; top:0px; bottom:0px; }
+	div#numpad { /*aspect-ratio:1;*/ height:100%; width:calc(100vh - 1rem); }
+	div#numpad button{ font-size: 8vh; }
+}

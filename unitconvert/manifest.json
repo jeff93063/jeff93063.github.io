@@ -1,0 +1,33 @@
+{
+  "name": "UnitConvert",
+  "short_name": "UnitConvert",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#606060",
+  "theme_color": "#606060",
+  "orientation": "portrait",
+  "icons": [
+        {
+            "src": "/unitconvert/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/unitconvert/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+		{
+			"src": "/unitconvert/maskable512.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "maskable"
+		},
+		{
+			"src": "/unitconvert/maskable256.png",
+			"sizes": "256x256",
+			"type": "image/png",
+			"purpose": "maskable"
+		}
+  ]
+}
