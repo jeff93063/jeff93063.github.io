@@ -1,0 +1,160 @@
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<title>Jawbone Zeroing Target Generator</title>
+		<style type="text/css">
+body { background-color:#222222; color:#ffffff; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; }
+div { padding:5px; }
+hr { border:0px; border-top:2px solid #e75c21;}
+label { display:block; }
+div#help { display:none; }
+button#hideButton { display:none; }
+li { margin-bottom:5px; }
+</style>
+<script src="pdfobject.min.js"></script>
+<script src="jspdf.umd.min.js"></script>
+<script type="text/javascript">
+var imgData = 'data:image/png;base64,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';
+
+const { jsPDF } = window.jspdf;
+var $ = function( id ) { return document.getElementById( id ); };
+
+function embedpdf(){
+	PDFObject.embed(testpdf(), "#pdfDiv");
+}
+
+function showHelp(){
+	$("help").setAttribute("style", "display:block");
+	$("hideButton").setAttribute("style", "display:inline");
+	$("showButton").setAttribute("style", "display:none");
+}
+function hideHelp(){
+	$("help").setAttribute("style", "display:none");
+	$("hideButton").setAttribute("style", "display:none");
+	$("showButton").setAttribute("style", "display:inline");
+}
+
+function testpdf(){
+	var doc = new jsPDF({
+		orientation: "portrait",
+		unit: "in",
+		format: [8.5,11]
+	});
+
+	if(!isNaN($("desiredZero").value) && !isNaN($("actualDist").value) && !isNaN($("sightHt").value) && !isNaN($("clickMOA").value)){
+		var len1 = $("desiredZero").value * 1;
+		var len2 = $("actualDist").value * 1;
+		if($("distUnitSel").value == "meters"){
+			len1 *= 1.0936;
+			len2 *= 1.0936;
+		}
+		var ht = $("sightHt").value * 1;
+		if($("htUnitSel").value == "mm"){
+			ht *= .03937;
+		}
+		var moa = $("clickMOA").value * 1;
+		var below = ht * (len1 - len2) / len1;
+		var div = len2 * 36 * Math.tan(Math.PI*moa/60/180);
+		//$("heightOut").innerText = below;
+		//$("divOut").innerText = div;
+		doc.setDrawColor(128,128,128);
+		doc.setLineWidth(0.002);
+		
+		for (i=1; i<3.25/div; i++){ //loop left to right, drawing vert lines
+			doc.line(4.25 + div*i,1,4.25 + div*i, 10);
+			doc.line(4.25 - div*i,1,4.25 - div*i, 10);
+		}
+		for (j=1; j<(10-(5.5+below/2))/div; j++){//loop top to bottom, drawing horiz lines
+			doc.line(1,5.5+below/2 + div*j,7.5,5.5 + below/2 + div*j);
+		}
+		for (k=1; k<((5.5+below/2)-1)/div; k++){//loop top to bottom, drawing horiz lines
+			doc.line(1,5.5+below/2 - div*k,7.5,5.5 + below/2 - div*k);
+		}
+		doc.setFillColor(0,0,0);
+		doc.setDrawColor(0,0,0);
+		doc.circle(4.25,5.5-below/2,.25,"F"); //black circle
+		doc.setLineWidth(0.01);
+		doc.line(4.25,1,4.25,10); //vertical center line
+		doc.line(1,5.5+below/2,7.5,5.5+below/2); //horizontal center line
+
+		doc.setLineWidth(0.01);
+		doc.circle(4.25,5.5+below/2,.25,"S"); //empty circle
+		doc.text("Aim Here",4.6,5.5-below/2-.05);
+		doc.text("Bullets Go Here",4.6,5.5+below/2-.05);
+		doc.setFontSize(12);
+		doc.text("Desired Zero: " + $("desiredZero").value + " " + $("distUnitSel").value + "\nActual Distance: " + $("actualDist").value + " " + $("distUnitSel").value + "\nSight Height: " + $("sightHt").value + " " + $("htUnitSel").value + "\nGrid lines are 1 click (" + $("clickMOA").value + " MOA)",1,1.15);
+		doc.addImage(imgData, 'PNG', 5.5, 1, 2, 1);
+		return doc.output("datauristring");
+	}
+}
+</script></head>
+
+
+
+<body>
+<img src="Jawbone250.png" width="250" height="125" alt="Jawbone" style="float:left;">
+<h3>Zeroing Target Generator</h3>
+<div>This tool creates a printable target that allows you to zero for a 
+longer distance while shooting at a shorter distance. For example: If 
+you want a 25 yard zero on your pistol red dot, but you are shooting at 
+10 yards. Or, if you want a 100 meter zero on your AR but you want to 
+get "on paper" by boresighting at 25 meters.</div>
+<div>This tool does not account for bullet drop, wind, humidity, air 
+density, Coriolis effect, curvature of the Earth (JK, it's flat!), or 
+mirage. It's just a simple tool to get you "on paper". You need to fine 
+tune at the actual distance for a true zero.</div>
+<hr>
+<button id="showButton" onclick="showHelp();">Show Instructions</button><button id="hideButton" onclick="hideHelp();">Hide Instructions</button>
+<div id="help">
+<ul>
+	<li><b>Desired Zero:</b> This is the distance for which you want your 
+firearm/optic to be zeroed. For example, a "25 yard zero" means your 
+point of aim and point of impact will be the same at 25 yards.</li>
+	<li><b>Actual Distance:</b> This is how far away you will place the printed target.</li>
+	<li><b>Sight Height Above Bore:</b> This is the distance between the center of your barrel and the center of your optic, as shown here:
+		<img src="pistolsights.png" width="300">
+		<img src="riflesights.png" width="300">
+		<br>AR-15 iron sights and absolute co-witness are usually 2.6 inches. Pistol red dots are usually closer to 1 inch.
+	</li>
+	<li><b>MOA per Click:</b> This is how much your optic's point of aim 
+shifts for each click. The target will print out with a grid at the 
+proper spacing so you can easily see how many clicks you need to adjust 
+to get zeroed. Check the manual for your optic.</li>
+</ul>
+</div>
+<hr>
+<div style="clear:left; float:left; margin-right:5px;">
+	<label for="desiredZero">Desired Zero</label>
+	<input type="text" id="desiredZero" value="50">
+	<select name="distUnitSel" id="distUnitSel">
+		<option value="yards" selected="selected">Yards</option>
+		<option value="meters">Meters</option>
+	</select>
+</div>
+<div style="float:left; margin-right:5px;">
+	<label for="actualDist">Actual Distance</label>
+	<input type="text" id="actualDist" value="25">
+</div>
+<div style="float:left; margin-right:5px;">
+	<label for="sightHt">Sight Height Above Bore</label>
+	<input type="text" id="sightHt" value="2.6">
+	<select name="htUnitSel" id="htUnitSel">
+		<option value="in" selected="selected">inch</option>
+		<option value="mm">mm</option>
+	</select>
+</div>
+<div style="float:left; margin-right:5px;">
+	<label for="clickMOA">MOA per Click</label>
+	<input type="text" id="clickMOA" value=".5">
+</div>
+<hr style="clear:both;">
+<button onclick="embedpdf();">Generate PDF</button> When you print this PDF, you may need to change your settings to print at 100% scale.
+<hr>
+<!--
+<span id="heightOut"></span>
+<span id="divOut"></span>
+<hr />
+-->
+<div id="pdfDiv"></div>
+
+</body></html>
