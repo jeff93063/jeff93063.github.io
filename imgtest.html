@@ -1,8 +1,0 @@
-<img src="target/Jawbone250.png" id="testimage" />
-<script type="module">
-	import { ImageFilterHandler, BlackwhiteFilter, InvertFilter, GrayscaleFilter, SepiaFilter } from './image-filter.js';
-	let cvs = document.createElement("canvas");
-	let grayscaleFilter = new GrayscaleFilter(cvs);
-	grayscaleFilter.process(document.getElementById("testimage"));
-	document.getElementById("testimage").src = cvs.toDataURL();
-</script>
