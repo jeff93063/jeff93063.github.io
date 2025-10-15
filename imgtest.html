@@ -4,4 +4,5 @@
 	let cvs = document.createElement("canvas");
 	let grayscaleFilter = new GrayscaleFilter(cvs);
 	grayscaleFilter.process(document.getElementById("testimage"));
+	document.getElementById("testimage").src = cvs.toDataURL();
 </script>
