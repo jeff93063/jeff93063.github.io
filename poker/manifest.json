@@ -4,8 +4,8 @@
 	"short_name": "Poker",
 	"start_url": "index.html",
 	"display": "standalone",
-	"background_color": "#008000",
-	"theme_color": "#008000",
+	"background_color": "#006000",
+	"theme_color": "#006000",
 	"orientation": "any",
 	"icons": [
 		{
