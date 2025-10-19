@@ -9,12 +9,6 @@
 	"orientation": "any",
 	"icons": [
 		{
-			"src": "favicon.svg",
-			"sizes": "144x144 256x256 512x512",
-			"type": "image/svg",
-			"purpose": "any"
-		},
-		{
 			"src": "maskable256.png",
 			"sizes": "256x256",
 			"type": "image/png",
@@ -24,7 +18,7 @@
 			"src": "maskable512.png",
 			"sizes": "512x512",
 			"type": "image/png",
-			"purpose": "maskable"
+			"purpose": "any"
 		}
 	]
 }
