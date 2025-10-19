@@ -1,4 +1,4 @@
-const staticCacheName = "poker-static-v1";
+const staticCacheName = "poker-static-v2";
 const assets = [
 	"/poker/",
 	"/poker/index.html"
