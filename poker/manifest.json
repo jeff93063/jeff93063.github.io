@@ -11,13 +11,13 @@
 	"icons": [
 		{
 			"src": "https://jeff93063.github.io/poker/favicon.svg",
-			"sizes": "16x16 32x32 48x48 72x72 96x96 128x128 256x256 512x512",
+			"sizes": "16x16 32x32 48x48 72x72 96x96 128x128 144x144 256x256 512x512",
 			"type": "image/svg+xml",
 			"purpose": "any"
 		},
 		{
 			"src": "https://jeff93063.github.io/poker/favicon-maskable.svg",
-			"sizes": "16x16 32x32 48x48 72x72 96x96 128x128 256x256 512x512",
+			"sizes": "16x16 32x32 48x48 72x72 96x96 128x128 144x144 256x256 512x512",
 			"type": "image/svg+xml",
 			"purpose": "maskable"
 		}
