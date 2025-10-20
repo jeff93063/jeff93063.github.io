@@ -26,5 +26,20 @@
 			"type": "image/png",
 			"purpose": "maskable"
 		}
+	],
+	"screenshots": [
+		{
+			"src": "poker-screenshot-wide.png",
+			"sizes": "2842x1208",
+			"type": "image/png",
+			"form_factor": "wide",
+			"label": "Landscape"
+		},
+		{
+			"src": "poker-screenshot.png",
+			"sizes": "1104x1666",
+			"type": "image/png",
+			"label": "Portrait"
+		}
 	]
 }
