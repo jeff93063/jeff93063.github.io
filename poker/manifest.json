@@ -3,6 +3,7 @@
 	"categories": ["games"],
 	"short_name": "Poker",
 	"start_url": "index.html",
+	"id": "/poker/index.html",
 	"display": "standalone",
 	"background_color": "#006000",
 	"theme_color": "#006000",
@@ -15,15 +16,9 @@
 			"purpose": "any"
 		},
 		{
-			"src": "maskable256.png",
-			"sizes": "256x256",
-			"type": "image/png",
-			"purpose": "maskable"
-		},
-		{
-			"src": "maskable512.png",
-			"sizes": "512x512",
-			"type": "image/png",
+			"src": "favicon-maskable.svg",
+			"sizes": "256x256 512x512",
+			"type": "image/svg+xml",
 			"purpose": "maskable"
 		}
 	],
