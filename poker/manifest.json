@@ -1,37 +1,44 @@
 {
 	"name": "Poker",
-	"categories": ["games"],
 	"short_name": "Poker",
-	"start_url": "index.html",
-	"id": "/poker/index.html",
+	"start_url": "/poker/",
+	"description": "PWA Video Poker",
+	"id": "/poker/",
+	"categories": ["games"],
 	"display": "standalone",
 	"background_color": "#006000",
 	"theme_color": "#006000",
 	"orientation": "any",
 	"icons": [
 		{
-			"src": "https://jeff93063.github.io/poker/favicon.svg",
-			"sizes": "16x16 32x32 48x48 72x72 96x96 128x128 144x144 256x256 512x512",
-			"type": "image/svg+xml",
+			"src": "icons/192.png",
+			"sizes": "192x192",
+			"type": "image/png",
 			"purpose": "any"
 		},
 		{
-			"src": "https://jeff93063.github.io/poker/favicon-maskable.svg",
-			"sizes": "16x16 32x32 48x48 72x72 96x96 128x128 144x144 256x256 512x512",
-			"type": "image/svg+xml",
+			"src": "icons/512.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "any"
+		},
+		{
+			"src": "icons/maskable512.png",
+			"sizes": "512x512",
+			"type": "image/png",
 			"purpose": "maskable"
 		}
 	],
 	"screenshots": [
 		{
-			"src": "poker-screenshot-wide.png",
+			"src": "icons/poker-screenshot-wide.png",
 			"sizes": "2916x1660",
 			"type": "image/png",
 			"form_factor": "wide",
 			"label": "Landscape"
 		},
 		{
-			"src": "poker-screenshot.png",
+			"src": "icons/poker-screenshot.png",
 			"sizes": "1104x1666",
 			"type": "image/png",
 			"label": "Portrait"
