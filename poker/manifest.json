@@ -32,14 +32,14 @@
 	"screenshots": [
 		{
 			"src": "icons/poker-screenshot-wide.png",
-			"sizes": "2916x1660",
+			"sizes": "1920x1080",
 			"type": "image/png",
 			"form_factor": "wide",
 			"label": "Landscape"
 		},
 		{
 			"src": "icons/poker-screenshot.png",
-			"sizes": "1104x1666",
+			"sizes": "1080x1920",
 			"type": "image/png",
 			"label": "Portrait"
 		}

@@ -32,14 +32,14 @@
 	"screenshots": [
 		{
 			"src": "icons/blackjack-screenshot-wide.png",
-			"sizes": "2064x1150",
+			"sizes": "1920x1080",
 			"type": "image/png",
 			"form_factor": "wide",
 			"label": "Landscape"
 		},
 		{
 			"src": "icons/blackjack-screenshot.png",
-			"sizes": "1232x1522",
+			"sizes": "1080x1920",
 			"type": "image/png",
 			"label": "Portrait"
 		}
