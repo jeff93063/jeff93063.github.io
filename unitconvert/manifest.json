@@ -1,33 +1,31 @@
 {
-  "name": "UnitConvert",
-  "short_name": "UnitConvert",
-  "start_url": "index.html",
-  "display": "standalone",
-  "background_color": "#606060",
-  "theme_color": "#606060",
-  "orientation": "portrait",
-  "icons": [
-        {
-            "src": "/unitconvert/android-chrome-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "/unitconvert/android-chrome-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        },
+	"name": "UnitConvert",
+	"short_name": "UnitConvert",
+	"start_url": "/unitconvert/",
+	"description": "PWA Unit Converter",
+	"id": "/unitconvert/",
+	"display": "standalone",
+	"background_color": "#606060",
+	"theme_color": "#606060",
+	"orientation": "portrait",
+	"icons": [
 		{
-			"src": "/unitconvert/maskable512.png",
+			"src": "icons/192.png",
+			"sizes": "192x192",
+			"type": "image/png",
+			"purpose": "any"
+		},
+		{
+			"src": "icons/512.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "any"
+		},
+		{
+			"src": "icons/maskable512.png",
 			"sizes": "512x512",
 			"type": "image/png",
 			"purpose": "maskable"
-		},
-		{
-			"src": "/unitconvert/maskable256.png",
-			"sizes": "256x256",
-			"type": "image/png",
-			"purpose": "maskable"
 		}
-  ]
+	]
 }
