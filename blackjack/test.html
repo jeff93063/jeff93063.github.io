@@ -1,0 +1,48 @@
+<style>
+	:root {font-size:4vh;}
+	body {display:flex; flex-direction: column; background-color:#006000; height:98vh; margin:1vh; color:white; }
+	div.lg{flex-grow:1; display:flex; flex-direction:row; justify-content: center;}
+	div.card {flex-grow:0; border-radius:.4rem; background-color:#ffffff; aspect-ratio: 5/7; border:0; position:relative;
+		filter: drop-shadow(.02rem .02rem .1rem #000000); margin-right:-4.7rem; text-align:left; padding:.5rem; }
+	div.card:before, div.flipped:before {
+		border-radius:.3rem;
+		content: "";
+		display: block;
+		position: absolute;
+		top: .1rem;
+		left: .1rem;
+		right: .1rem;
+		bottom: .1rem;
+		pointer-events: none;
+	}
+	div.flipped:before {
+		background-color:#a80000;
+		background-position: .2rem .2rem;
+		background-size: .8rem;
+		background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='100'><polygon points='30,0 60,50 30,100 0,50' fill='transparent' stroke='white' stroke-width='3' /></svg>");
+	}
+	div.card:before {
+		background: none;
+		border: .12rem solid #000000;
+	}
+	div.card:first-child{margin-left:-4.7rem;}
+	div.sm {flex-grow:0; text-align:center;}
+	span.foot{white-space:nowrap;}
+</style>
+<div class="sm">111</div>
+<div class="lg">
+	<div class="card">a</div>
+	<div class="card">b</div>
+	<div class="card">c</div>
+	<div class="card">d</div>
+	<div class="card">e</div>
+</div>
+<div class="sm">111</div>
+<div class="lg">
+	<div class="card">c</div>
+	<div class="card">d</div>
+</div>
+<div class="sm">
+	<span class="foot">111111111111111111111111111</span>
+	<span class="foot">222222222222222222222222222</span>
+</div>
