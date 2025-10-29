@@ -1,0 +1,55 @@
+const staticCacheName = "target-static-v1";
+const assets = [
+	"/target/",
+	"/target/index.html",
+	"/target/Jawbone250.png",
+	"/target/pistolsights.png",
+	"/target/riflesights.png",
+	"/target/Jawbone250.png",
+	"/target/jspdf.umd.min.js",
+	"/target/pdfobject.min.js"
+];
+
+self.addEventListener("install", installEvent => {
+	installEvent.waitUntil(
+		caches.open(staticCacheName).then(cache => {
+			cache.addAll(assets);
+		})
+	);
+});
+
+/*
+self.addEventListener('activate', evt => {
+	evt.waitUntil(
+		caches.keys().then(keys =>{
+			//console.log(keys);
+			return Promise.all(keys
+				.filter(key => key !== staticCacheName)
+				.map(key => caches.delete(key))
+			)
+		})
+	);
+});
+*/
+
+self.addEventListener('activate', function(event) {
+	var static_cache_prefix = staticCacheName.substring(0,staticCacheName.indexOf("-"));
+	event.waitUntil(
+		caches.keys().then(function(keyList) {
+			return Promise.all(keyList.map(function(key) {
+				if (key.indexOf(static_cache_prefix) > -1 && key!=staticCacheName) { 
+					 console.log("Cache delete : "+key);
+					 return caches.delete(key);
+				}
+			}));
+		})
+	);
+});
+
+self.addEventListener("fetch", fetchEvent => {
+	fetchEvent.respondWith(
+		caches.match(fetchEvent.request).then(res => {
+			return res || fetch(fetchEvent.request);
+		})
+	);
+});
