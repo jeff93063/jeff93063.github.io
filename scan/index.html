@@ -80,6 +80,37 @@ function saveTIFF() {
 		}
 	});
 }
+
+function saveTifPdf() {
+	let canvas = document.getElementById("canvasHidden");
+	// Convert canvas to TIFF as an Object URL
+	CanvasToTIFF.toBlob(canvas, function(blob) {
+		// window.location.href = (URL || webkitURL).createObjectURL(blob);
+		const src = createObjectURL(blob);
+		// const blob = URL.createObjectURL(src);
+		// console.log(src);
+		var doc = new jsPDF({
+			orientation: "portrait",
+			unit: "in",
+			format: [8.5,11]
+		});
+		doc.addImage(src, 'TIFF', .25, .25, 8, 10.5);
+		return doc.output("datauristring");
+	},
+	{    // options
+		// compress: !!document.querySelector("#compress").checked,
+		// compressionLevel: +document.querySelector("#compLevel").value,
+		// littleEndian: !!document.querySelector("#little-endian").checked,
+		compress: true,
+		compressionLevel: 6,
+		littleEndian: false,
+		dpi: 96,
+		onError: function(e) {
+			console.log("Error:", e)
+		}
+	});
+}
+
 	</script>
   </head>
   <body>
