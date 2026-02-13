@@ -1,0 +1,46 @@
+{
+	"name": "SpeedFeed",
+	"short_name": "SpeedFeed",
+	"start_url": "/speedfeed/",
+	"description": "Machining Speed/Feed Calculator",
+	"id": "/speedfeed/",
+	"display": "standalone",
+	"background_color": "#606060",
+	"theme_color": "#606060",
+	"orientation": "portrait",
+	"icons": [
+		{
+			"src": "icons/192.png",
+			"sizes": "192x192",
+			"type": "image/png",
+			"purpose": "any"
+		},
+		{
+			"src": "icons/512.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "any"
+		},
+		{
+			"src": "icons/maskable512.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "maskable"
+		}
+	],
+	"screenshots": [
+		{
+			"src": "icons/speedfeed-screenshot-wide.png",
+			"sizes": "1920x1080",
+			"type": "image/png",
+			"form_factor": "wide",
+			"label": "Landscape"
+		},
+		{
+			"src": "icons/speedfeed-screenshot.png",
+			"sizes": "1080x1920",
+			"type": "image/png",
+			"label": "Portrait"
+		}
+	]
+}
