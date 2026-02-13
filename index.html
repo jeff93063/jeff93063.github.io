@@ -1,36 +1,49 @@
+<!DOCTYPE html>
 <html>
 <head>
-<style type="text/css">
-*{font-size: 5vmin;}
-html {
-	color-scheme: light dark;
-}
-html,
-body {
-	height: 100%;
-}
-body {
-	font-family: system-ui;
-	display: flex;
-	align-items: center; 
-	justify-content: center;
-}
-div img {
-	width:32px;
-	height:32px;
-	margin:.25em;
-	vertical-align:middle;
-}
-</style>
+	<title>SpeedFeed</title>
+	<link rel="apple-touch-icon" sizes="180x180" href="/speedfeed/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/speedfeed/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/speedfeed/favicon-16x16.png">
+	<link rel="manifest" href="/speedfeed/manifest.json">
+	<link rel="mask-icon" href="/speedfeed/safari-pinned-tab.svg" color="#f88f00">
+	<link rel="shortcut icon" href="/speedfeed/favicon.ico">
+	<meta name="msapplication-TileColor" content="#f88f00">
+	<meta name="msapplication-config" content="/speedfeed/browserconfig.xml">
+	<meta name="theme-color" content="#606060">
+	<!--<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">-->
+	<meta name="viewport" content="width=device-width, interactive-widget=resizes-content, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="style.css">
+	<script src="speedfeed.js"></script>
 </head>
-<body>
-	<div>
-		<div><a href="unitconvert/index.html"><img src="unitconvert/icons/favicon.svg" />UnitConvert</a></div>
-		<div><a href="speedfeed/index.html"><img src="speedfeed/icons/favicon.svg" />SpeedFeed</a></div>
-		<div><a href="blackjack/index.html"><img src="blackjack/icons/favicon.svg" />Blackjack</a></div>
-		<div><a href="poker/index.html"><img src="poker/icons/favicon.svg" />Poker</a></div>
-		<div><a href="aircalcs/index.html"><img src="aircalcs/aircalcs4.png" />Aircalcs 4</a></div>
-		<div><a href="target/index.html"><img src="target/icons/favicon.svg" />Target</a></div>
+<body onload="sfm(); chip(); calculate();">
+<div id="overallContainer">
+	<div id="gridContainer">
+		<select id="material" onchange="sfm(); chip(); calculate();">
+			<option value="al">Aluminum</option>
+			<option value="stl">Alloy Steel</option>
+			<option value="cres">Stainless</option>
+		</select>
+		<span>Tool</span><span>Tool Diameter</span>
+		<select id="cutter" onchange="sfm(); chip(); calculate();">
+			<option value="hss">HSS</option>
+			<option value="carbide">Carbide</option>
+		</select>
+		<input inputmode="decimal" type="number" id="dia" onchange="calculate();" onkeyup="calculate();" onpaste="calculate(this);" value=".375" />
+		<span>Flutes</span>
+		<span>Max RPM</span>
+		<input inputmode="decimal" type="number" id="flutes" onchange="calculate();" onkeyup="calculate();" onpaste="calculate();" value="4" />
+		<input inputmode="decimal" type="number" id="maxRPM" onchange="calculate();" onkeyup="calculate();" onpaste="calculate();" />
+		<span>SFM (Recommended: <span id="sfmMin"></span> to <span id="sfmMax"></span>)</span>
+		<span>Chip Load (Recommended: <span id="chipMin"></span> to <span id="chipMax"></span>)</span>
+		<input inputmode="decimal" type="number" id="sfmOverride" onchange="calculate();" onkeyup="calculate();" onpaste="calculate();" />
+		<input inputmode="decimal" type="number" id="chipOverride" onchange="calculate();" onkeyup="calculate();" onpaste="calculate();" />
+		<span>Speed</span>
+		<span>Feed</span>
+		<input id="speed" type="number" readonly="readonly" />
+		<input id="feed" type="number" readonly="readonly" />
 	</div>
+</div>
 </body>
 </html>
+
