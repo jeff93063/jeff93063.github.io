@@ -1,4 +1,4 @@
-const staticCacheName = "speedfeed-static-v01";
+const staticCacheName = "speedfeed-static-v02";
 const assets = [
 	"/speedfeed/",
 	"/speedfeed/index.html",

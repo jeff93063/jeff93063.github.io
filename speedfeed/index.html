@@ -17,32 +17,34 @@
 	<script src="speedfeed.js"></script>
 </head>
 <body onload="sfm(); chip(); calculate();">
-<div id="overallContainer">
-	<div id="gridContainer">
-		<select id="material" onchange="sfm(); chip(); calculate();">
-			<option value="al">Aluminum</option>
-			<option value="stl">Alloy Steel</option>
-			<option value="cres">Stainless</option>
-		</select>
-		<span>Tool</span><span>Tool Diameter</span>
-		<select id="cutter" onchange="sfm(); chip(); calculate();">
-			<option value="hss">HSS</option>
-			<option value="carbide">Carbide</option>
-		</select>
-		<input inputmode="decimal" type="number" id="dia" onchange="calculate();" onkeyup="calculate();" onpaste="calculate(this);" value=".375" />
-		<span>Flutes</span>
-		<span>Max RPM</span>
-		<input inputmode="decimal" type="number" id="flutes" onchange="calculate();" onkeyup="calculate();" onpaste="calculate();" value="4" />
-		<input inputmode="decimal" type="number" id="maxRPM" onchange="calculate();" onkeyup="calculate();" onpaste="calculate();" />
-		<span>SFM (Recommended: <span id="sfmMin"></span> to <span id="sfmMax"></span>)</span>
-		<span>Chip Load (Recommended: <span id="chipMin"></span> to <span id="chipMax"></span>)</span>
-		<input inputmode="decimal" type="number" id="sfmOverride" onchange="calculate();" onkeyup="calculate();" onpaste="calculate();" />
-		<input inputmode="decimal" type="number" id="chipOverride" onchange="calculate();" onkeyup="calculate();" onpaste="calculate();" />
-		<span>Speed</span>
-		<span>Feed</span>
-		<input id="speed" type="number" readonly="readonly" />
-		<input id="feed" type="number" readonly="readonly" />
-	</div>
+<div id="gridContainer">
+	<select id="operation" onchange="sfm(); chip(); calculate();">
+		<option value="milling">Milling</option>
+		<option value="drilling">Drilling</option>
+	</select>
+	<select id="material" onchange="sfm(); chip(); calculate();">
+		<option value="al">Aluminum</option>
+		<option value="stl">Alloy Steel</option>
+		<option value="cres">Stainless</option>
+	</select>
+	<span>Tool</span><span>Tool Diameter</span>
+	<select id="cutter" onchange="sfm(); chip(); calculate();">
+		<option value="hss">HSS</option>
+		<option value="carbide">Carbide</option>
+	</select>
+	<input inputmode="decimal" type="number" id="dia" onchange="chip(); calculate();" onkeyup="chip(); calculate();" onpaste="chip(); calculate(this);" value=".5" />
+	<span>Flutes</span>
+	<span>Max RPM</span>
+	<input inputmode="decimal" type="number" id="flutes" onchange="calculate();" onkeyup="calculate();" onpaste="calculate();" value="4" />
+	<input inputmode="decimal" type="number" id="maxRPM" onchange="calculate();" onkeyup="calculate();" onpaste="calculate();" value="7500" />
+	<span>SFM (<span id="sfmMin"></span> to <span id="sfmMax"></span>)</span>
+	<span>Chip Load (<span id="chipMin"></span> to <span id="chipMax"></span>)</span>
+	<input inputmode="decimal" type="number" id="sfmOverride" onchange="calculate();" onkeyup="calculate();" onpaste="calculate();" />
+	<input inputmode="decimal" type="number" id="chipOverride" onchange="calculate();" onkeyup="calculate();" onpaste="calculate();" />
+	<span>Speed</span>
+	<span>Feed</span>
+	<input id="speed" type="number" readonly="readonly" />
+	<input id="feed" type="number" readonly="readonly" />
 </div>
 </body>
 </html>
