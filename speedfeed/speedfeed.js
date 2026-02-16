@@ -41,6 +41,7 @@ var matlData = {
 				"sfmMin":100,
 				"sfmMax":300,
 				"chipData": [
+					{"dia":0, "minChip":0, "maxChip":0},
 					{"dia":0.0625, "minChip":.0002, "maxChip":.0005},
 					{"dia":0.125, "minChip":0.0003, "maxChip":0.0008},
 					{"dia":0.25, "minChip":0.0005, "maxChip":0.0015},
@@ -56,6 +57,7 @@ var matlData = {
 				"sfmMin":600,
 				"sfmMax":1200,
 				"chipData": [
+					{"dia":0, "minChip":0, "maxChip":0},
 					{"dia":0.0625, "minChip":0.0003, "maxChip":0.0008},
 					{"dia":0.125, "minChip":0.0005, "maxChip":0.0015},
 					{"dia":0.25, "minChip":0.001, "maxChip":0.003},
@@ -73,6 +75,7 @@ var matlData = {
 				"sfmMin":80,
 				"sfmMax":100,
 				"chipData": [
+					{"dia":0, "minChip":0, "maxChip":0},
 					{"dia":0.0625, "minChip":0.0002, "maxChip":0.0005},
 					{"dia":0.125, "minChip":0.0003, "maxChip":0.001},
 					{"dia":0.25, "minChip":0.0005, "maxChip":0.002},
@@ -88,6 +91,7 @@ var matlData = {
 				"sfmMin":100,
 				"sfmMax":350,
 				"chipData": [
+					{"dia":0, "minChip":0, "maxChip":0},
 					{"dia":0.0625, "minChip":0.0006, "maxChip":0.0008},
 					{"dia":0.125, "minChip":0.0008, "maxChip":0.0012},
 					{"dia":0.25, "minChip":0.0012, "maxChip":0.002},
@@ -105,6 +109,7 @@ var matlData = {
 				"sfmMin":40,
 				"sfmMax":60,
 				"chipData": [
+					{"dia":0, "minChip":0, "maxChip":0},
 					{"dia":0.0625, "minChip":0.0002, "maxChip":0.0005},
 					{"dia":0.125, "minChip":0.0003, "maxChip":0.0008},
 					{"dia":0.25, "minChip":0.0004, "maxChip":0.0015},
@@ -120,6 +125,7 @@ var matlData = {
 				"sfmMin":50,
 				"sfmMax":250,
 				"chipData": [
+					{"dia":0, "minChip":0, "maxChip":0},
 					{"dia":0.0625, "minChip":0.0002, "maxChip":0.0003},
 					{"dia":0.125, "minChip":0.0004, "maxChip":0.0006},
 					{"dia":0.25, "minChip":0.0008, "maxChip":0.0012},
@@ -139,6 +145,7 @@ var matlData = {
 				"sfmMin":200,
 				"sfmMax":300,
 				"chipData": [
+					{"dia":0, "minChip":0, "maxChip":0},
 					{"dia":0.0625, "minChip":0.001, "maxChip":0.0022},
 					{"dia":0.125, "minChip":0.002, "maxChip":0.006},
 					{"dia":0.25, "minChip":0.004, "maxChip":0.01},
@@ -154,6 +161,7 @@ var matlData = {
 				"sfmMin":150,
 				"sfmMax":400,
 				"chipData": [
+					{"dia":0, "minChip":0, "maxChip":0},
 					{"dia":0.0625, "minChip":0.0006, "maxChip":0.0013},
 					{"dia":0.125, "minChip":0.001, "maxChip":0.0025},
 					{"dia":0.25, "minChip":0.002, "maxChip":0.004},
@@ -171,6 +179,7 @@ var matlData = {
 				"sfmMin":45,
 				"sfmMax":70,
 				"chipData": [
+					{"dia":0, "minChip":0, "maxChip":0},
 					{"dia":0.0625, "minChip":0.001, "maxChip":0.0022},
 					{"dia":0.125, "minChip":0.002, "maxChip":0.006},
 					{"dia":0.25, "minChip":0.004, "maxChip":0.01},
@@ -186,6 +195,7 @@ var matlData = {
 				"sfmMin":30,
 				"sfmMax":90,
 				"chipData": [
+					{"dia":0, "minChip":0, "maxChip":0},
 					{"dia":0.0625, "minChip":0.0004, "maxChip":0.0006},
 					{"dia":0.125, "minChip":0.0008, "maxChip":0.0012},
 					{"dia":0.25, "minChip":0.0016, "maxChip":0.0024},
@@ -203,6 +213,7 @@ var matlData = {
 				"sfmMin":30,
 				"sfmMax":50,
 				"chipData": [
+					{"dia":0, "minChip":0, "maxChip":0},
 					{"dia":0.0625, "minChip":0.001, "maxChip":0.0022},
 					{"dia":0.125, "minChip":0.002, "maxChip":0.006},
 					{"dia":0.25, "minChip":0.004, "maxChip":0.01},
@@ -218,6 +229,7 @@ var matlData = {
 				"sfmMin":30,
 				"sfmMax":90,
 				"chipData": [
+					{"dia":0, "minChip":0, "maxChip":0},
 					{"dia":0.0625, "minChip":0.0004, "maxChip":0.0006},
 					{"dia":0.125, "minChip":0.0004, "maxChip":0.0006},
 					{"dia":0.25, "minChip":0.0008, "maxChip":0.0012},
@@ -233,6 +245,47 @@ var matlData = {
 	}
 };
 
+function initialize() { //grab all values from cookie if it exists
+	if(getCookie("operation")){
+		for(m of $("operation").options){
+			if(getCookie("operation") == m.value){
+				m.selected = true;
+			}
+		}
+	}
+	if(getCookie("material")){
+		for(m of $("material").options){
+			if(getCookie("material") == m.value){
+				m.selected = true;
+			}
+		}
+	}
+	if(getCookie("cutter")){
+		for(m of $("cutter").options){
+			if(getCookie("cutter") == m.value){
+				m.selected = true;
+			}
+		}
+	}
+	if(getCookie("dia")){
+		$("dia").value = getCookie("dia");
+	}
+	if(getCookie("flutes")){
+		$("flutes").value = getCookie("flutes");
+	}
+	if(getCookie("maxRPM")){
+		$("maxRPM").value = getCookie("maxRPM");
+	}
+	sfm();
+	if(getCookie("sfmOverride")){
+		$("sfmOverride").value = getCookie("sfmOverride");
+	}
+	chip();
+	if(getCookie("chipOverride")){
+		$("chipOverride").value = getCookie("chipOverride");
+	}
+}
+
 function sfm() {
 	//overwrite sfm box with average recommended
 	let matlCutterObject = matlData[$("operation").value][$("material").value][$("cutter").value];
@@ -242,12 +295,25 @@ function sfm() {
 }
 
 function chip() {
+	let d = parseFloat($("dia").value);
 	//overwrite chip load box with average recommended
-	let matlCutterObject = matlData[$("operation").value][$("material").value][$("cutter").value];
-	let matlChipObject = matlCutterObject.chipData.find(el => el.dia === parseFloat($("dia").value)); //ONLY WORKS WITH EXACT VALUES FOR NOW
-	$("chipMin").innerHTML = matlChipObject.minChip;
-	$("chipMax").innerHTML = matlChipObject.maxChip;
-	$("chipOverride").value = ((matlChipObject.minChip + matlChipObject.maxChip)/2).toFixed(4);
+	let c = matlData[$("operation").value][$("material").value][$("cutter").value].chipData;
+	let cMin = 0;
+	let cMax = 0;
+	for(i=0; i<c.length; i++){
+		if(c[i].dia == d){
+			cMin = c[i].minChip;
+			cMax = c[i].maxChip;
+		}
+		else if(c[i].dia < d && c[i+1].dia > d){ //INTERPOLATE FOR IN-BETWEEN DIAMETERS
+			let proportion = (d-c[i].dia)/(c[i+1].dia-c[i].dia);
+			cMin = c[i].minChip + proportion * (c[i+1].minChip - c[i].minChip);
+			cMax = c[i].maxChip + proportion * (c[i+1].maxChip - c[i].maxChip);
+		}
+		$("chipMin").innerHTML = cMin.toFixed(4);
+		$("chipMax").innerHTML = cMax.toFixed(4);
+		$("chipOverride").value = ((cMin + cMax)/2).toFixed(4);
+	}
 }
 
 function calculate() {
@@ -256,113 +322,36 @@ function calculate() {
 	setCookie("cutter",$("cutter").value,99);
 	setCookie("dia",$("dia").value,99);
 	setCookie("flutes",$("flutes").value,99);
+	setCookie("maxRPM",$("maxRPM").value,99);
 	setCookie("sfmOverride",$("sfmOverride").value,99);
 	setCookie("chipOverride",$("chipOverride").value,99);
-	setCookie("maxRPM",$("maxRPM").value,99);
 
-
-	// if(!isNaN($(last).value) && !isNaN(parseFloat($(last).value))){
-		let speed = $("sfmOverride").value * 3.82 / $("dia").value;
-		if(speed > parseFloat($("maxRPM").value)){
-			speed = parseFloat($("maxRPM").value);
-		}
-		$("speed").value = speed.toFixed(0);
-		let feed = 0;
-		if($("operation").value == "milling"){
-			feed = speed * $("chipOverride").value * $("flutes").value;
-		}
-		else if($("operation").value == "drilling"){
-			feed = speed * $("chipOverride").value;
-		}
-		$("feed").value = feed.toFixed(1);
-
-		// let normalizedValue = (parseFloat($(last).value) + oldUnitObject.preoffset) * oldUnitObject.multiplier + oldUnitObject.postoffset;
-		// let convertedValue = (normalizedValue - newUnitObject.postoffset) / newUnitObject.multiplier - newUnitObject.preoffset;
-		// if(last == "a"){
-		// 	$("b").value = matchSigFigs($(last).value,convertedValue+"");
-		// 	setCookie("b",$("b").value,99);
-		// 	setCookie("a",$(last).value,99);
-		// }
-		// else if(last == "b"){
-		// 	$("a").value = matchSigFigs($(last).value,convertedValue+"");
-		// 	setCookie("a",$("a").value,99);
-		// 	setCookie("b",$(last).value,99);
-		// }
-	// }
+	let speed = $("sfmOverride").value * 3.82 / $("dia").value;
+	if(speed > parseFloat($("maxRPM").value)){
+		speed = parseFloat($("maxRPM").value);
+	}
+	$("speed").value = toSigFigs(speed,2);
+	let feed = 0;
+	if($("operation").value == "milling"){
+		feed = speed * $("chipOverride").value * $("flutes").value;
+	}
+	else if($("operation").value == "drilling"){
+		feed = speed * $("chipOverride").value;
+	}
+	$("feed").value = toSigFigs(feed,2);
 }
 
-function matchSigFigs(from,to){
-	//console.log("from=" + from + ", to=" + to);
-	if(from==0 && to==0){
-		return("0");
-	}
-	else{
-		from = from.replace(/\./,"");
-		var firstNonZero = from.search(/[1-9]/);
-		//var decimal = from.search(/\./);
-		var lastDigit = from.search(/\d$/);
-		var sigFigs = lastDigit - firstNonZero + 1; //not technically sigfigs when this applies to integers with trailing zeros
-		if(sigFigs < 3){ sigFigs = 3; }
-		//console.log("sigFigs=" + sigFigs);
-		var toReturn = parseFloat(to).toPrecision(sigFigs);
-		if(toReturn.indexOf("e") > -1){
-			exp = parseInt(toReturn.substr(toReturn.indexOf("e") + 1));
-			//console.log("exp=" + exp);
-			var toFirstNonZero = to.search(/[1-9]/);
-			var toLastDigit = to.search(/\d$/);
-			var toDecimal = to.search(/\./);
-			var fixedPlaces = null;
-			if(toDecimal == -1){
-				fixedPlaces = 0;
-			}
-			else{
-				fixedPlaces = toFirstNonZero + sigFigs - toDecimal - 1; //can be negative
-				if(fixedPlaces < 0){
-					fixedPlaces = 0;
-				}
-			}
-			//console.log("fixedPlaces=" + fixedPlaces);
-			toReturn = parseFloat(to).toFixed(fixedPlaces);
-		}
-		return(toReturn);
-	}
-}
-
-function initLists() {
-	//alert(getCookie("a"));
-	if(getCookie("a")){
-		$("a").value = getCookie("a");
-	}
-	if(getCookie("b")){
-		$("b").value = getCookie("b");
-	}
-	if(getCookie("material")){
-		for(m of $("material").options){
-			if(getCookie("material") == m.value){
-				m.selected = true;
-			}
-		}
-	}
-
-	if(getCookie("aUnit")){
-		for(j of $("aUnit").options){
-			if(getCookie("aUnit") == j.value){
-				j.selected = true;
-			}
-			else{
-				j.selected = false;
-			}
-		}
-	}
-	if(getCookie("bUnit")){
-		for(k of $("bUnit").options){
-			if(getCookie("bUnit") == k.value){
-				k.selected = true;
-			}
-			else{
-				k.selected = false;
-			}
-		}
-	}
+function toSigFigs(num, sigFigs = 2) { //from claude
+	if (num === 0) return "0." + "0".repeat(Math.max(0, sigFigs - 1));
+	if (!isFinite(num)) return String(num);
+	if (sigFigs < 1) throw new Error("sigFigs must be at least 1");
+	// Get the order of magnitude
+	const magnitude = Math.floor(Math.log10(Math.abs(num)));
+	// Round to the specified number of significant figures
+	const factor = Math.pow(10, magnitude - (sigFigs - 1));
+	const rounded = Math.round(num / factor) * factor;
+	// Determine decimal places needed
+	const decimalPlaces = Math.max(0, (sigFigs - 1) - magnitude);
+	return rounded.toFixed(decimalPlaces);
 }
 

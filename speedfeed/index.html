@@ -11,12 +11,11 @@
 	<meta name="msapplication-TileColor" content="#f88f00">
 	<meta name="msapplication-config" content="/speedfeed/browserconfig.xml">
 	<meta name="theme-color" content="#606060">
-	<!--<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">-->
 	<meta name="viewport" content="width=device-width, interactive-widget=resizes-content, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 	<link rel="stylesheet" href="style.css">
 	<script src="speedfeed.js"></script>
 </head>
-<body onload="sfm(); chip(); calculate();">
+<body onload="initialize(); calculate();">
 <div id="gridContainer">
 	<select id="operation" onchange="sfm(); chip(); calculate();">
 		<option value="milling">Milling</option>
@@ -32,7 +31,7 @@
 		<option value="hss">HSS</option>
 		<option value="carbide">Carbide</option>
 	</select>
-	<input inputmode="decimal" type="number" id="dia" onchange="chip(); calculate();" onkeyup="chip(); calculate();" onpaste="chip(); calculate(this);" value=".5" />
+	<input inputmode="decimal" type="number" id="dia" onchange="chip(); calculate();" onkeyup="chip(); calculate();" onpaste="chip(); calculate();" value=".5" />
 	<span>Flutes</span>
 	<span>Max RPM</span>
 	<input inputmode="decimal" type="number" id="flutes" onchange="calculate();" onkeyup="calculate();" onpaste="calculate();" value="4" />
@@ -40,7 +39,7 @@
 	<span>SFM (<span id="sfmMin"></span> to <span id="sfmMax"></span>)</span>
 	<span>Chip Load (<span id="chipMin"></span> to <span id="chipMax"></span>)</span>
 	<input inputmode="decimal" type="number" id="sfmOverride" onchange="calculate();" onkeyup="calculate();" onpaste="calculate();" />
-	<input inputmode="decimal" type="number" id="chipOverride" onchange="calculate();" onkeyup="calculate();" onpaste="calculate();" />
+	<input inputmode="decimal" type="number" step="any" id="chipOverride" onchange="calculate();" onkeyup="calculate();" onpaste="calculate();" />
 	<span>Speed</span>
 	<span>Feed</span>
 	<input id="speed" type="number" readonly="readonly" />
