@@ -1,4 +1,4 @@
-@font-face { font-family: cascadia-mono; src: url('CascadiaMono-Regular.otf'); }
+@font-face { font-family: cascadia-mono-num; src: url('cmNum.woff2'); }
 body { background-color: #606060; }
 div#overallContainer {
 	position:absolute;
@@ -47,7 +47,7 @@ input {
 	background-color: #000000;
 	color: #ffffff;
 	/*width:100%;*/
-	font-family:cascadia-mono, monospace;
+	font-family:cascadia-mono-num, monospace;
 	border:0px;
 	border-radius:.5rem;
 	padding:.5rem;
