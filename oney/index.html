@@ -1,9 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>OneyPlays Randomizer</title>
+	<link rel="manifest" href="manifest.json">
+
+	<!-- from realfavicongenerator.net -->
+	<link rel="icon" type="image/png" href="icons/96.png" sizes="96x96" />
+	<link rel="icon" type="image/jpeg" href="icons/favicon.jpg" />
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+	<meta name="theme-color" content="#606060">
+	<!--							   -->
+
+	<meta charset="UTF-8">
+	<meta name="darkreader-lock">
+	<meta name="color-scheme" content="only light">
+	<meta name="viewport" content="width=device-width, interactive-widget=resizes-content, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 <script src="papaparse.min.js"></script>
 <script>
-
 function randVid(){
-	// Papa.parse("https://jeff93063.github.io/oney/oney.csv", {
-	Papa.parse("./oney.csv", {
+	Papa.parse("https://jeff93063.github.io/oney/oney.csv", {
+	// Papa.parse("./oney.csv", {
 		download: true,
 		complete: function(results) {
 			let r = Math.floor(Math.random() * (results.data.length-1) + 1);
@@ -13,7 +30,11 @@ function randVid(){
 		}
 	});
 }
-
 </script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
 <button onclick="randVid();">Random!</button>
-<h1 id="videotitle"></h1>
+<span id="videotitle"></span>
+</body>
+</html>
