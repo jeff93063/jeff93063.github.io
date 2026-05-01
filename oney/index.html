@@ -1,4 +1,4 @@
- 
+<script src="papaparse.min.js"></script>
 <script>
 // window.location.href='https://youtu.be/0HscBfQSsJc?t=0s'
 
@@ -12,7 +12,15 @@ async function fetchCSV(url) {
 	}
 }
 
-fetchCSV('./oney.csv');
+// fetchCSV('./oney.csv');
+
+Papa.parse("./oney.csv", {
+	download: true,
+	complete: function(results) {
+		console.log(results);
+	}
+});
+
 
 </script>
 <textarea id="output"></textarea>
