@@ -1,0 +1,47 @@
+@font-face { font-family: cascadia-mono-num; src: url('cmNum.woff2'); }
+html {
+	height:100%;
+	font-family:sans;
+}
+body {
+	background-color:#606060;
+	color:white;
+	height:100%;
+	margin:0;
+	padding:0;
+}
+
+input {
+	position:absolute;
+	top:50%;
+	right:50%;
+	transform: translate(0,-50%);
+	appearance:unset;
+	box-sizing: border-box; /*fixes the problem where the 100% width with padding overlaps the container*/
+	/*min-width:2rem;*/
+	background-color: #000000;
+	color: #ffffff;
+	/*width:100%;*/
+	font-family:cascadia-mono-num, monospace;
+	border:0px;
+	border-radius:.5rem;
+	padding:.5rem;
+	font-size: 1rem;
+	text-align:right;
+	width:25%;
+}
+
+span {
+	position:absolute;
+	transform: translate(0,-50%);
+	left:50%;
+}
+
+/*hide spinner buttons*/
+input[type='number'] {
+	-moz-appearance:textfield;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+}
