@@ -83,30 +83,25 @@ function calculate() {
 	for (m=0;m<nearby.length;m++){
 
 	}
-	// console.log(min + "," + max);
-	// console. log(nearby};
 	let beforeString = "";
 	let afterString = "";
 	let equalString = "";
 	for (k=0;k<nearby.length;k++){
-		// console. log(nearby[k] [6] .toFixed(4));
-		// console. log(numIn. toFixed(4});
-		// console.log(nearby[k] [9] .toFixed(4) == numiIn.toFixed(4));
 		if (nearby[k][0].toFixed(4) == numIn.toFixed(4)){
 			equalString += nearby[k][0].toFixed(4) + " = " + nearby[k][1] + "<br />";
 		}
 		else if (nearby[k][0] < numIn){
 			console.log(nearby[k][0]);
-			let top = 50 + ((numIn - nearby[k][0])/spread) * 50;
+			let top = .5 + ((numIn - nearby[k][0])/spread) * .5;
 			console.log(top);
-			afterString += "<span style='top:" + top + "%;'>" + nearby[k][0].toFixed(4) + " = " + nearby[k][1] + "</span>";
+			afterString += "<span style='--myvar:" + top + ";'>" + nearby[k][0].toFixed(4) + " = " + nearby[k][1] + "</span>";
 		}
 		else{
 			console.log(nearby[k][0]);
-			let top = 50 - ((nearby[k][0] - numIn)/spread) * 50;
+			let top = .5 - ((nearby[k][0] - numIn)/spread) * .5;
 			console.log(top);
-			beforeString += "<span style='top:" + top + "%;'>" + nearby[k][0].toFixed(4) + " = " + nearby[k][1] + "</span>";
+			beforeString += "<span style='--myvar:" + top + ";'>" + nearby[k][0].toFixed(4) + " = " + nearby[k][1] + "</span>";
 		}
 	}
-	document.getElementById("output").innerHTML = beforeString + "<span style='top:50%;'>" + equalString + "</span>" + afterString;
+	document.getElementById("output").innerHTML = beforeString + "<span style='--myvar:.5;'>" + equalString + "</span>" + afterString;
 }

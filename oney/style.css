@@ -12,12 +12,6 @@ body {
 	display:grid;
 	place-items:center;
 }
-div#gridContainer {
-	display:grid;
-	padding:.3rem;
-	gap:.3rem;
-	grid-template-columns: auto auto;
-}
 
 button {
 	min-width:2rem;
@@ -28,9 +22,9 @@ button {
 	padding:.5rem;
 	font-size: 1rem;
 }
-
-div#gridContainer span{
-	font-size: .5rem;
-	margin-bottom:-.1rem;
+span {
+	text-align:center;
 }
-
+a {
+	color:#a6e22e;
+}

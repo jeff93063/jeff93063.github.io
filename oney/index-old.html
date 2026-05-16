@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>OneyPlays Randomizer</title>
+<title>OneyPlays Randomizer</title>
 	<link rel="manifest" href="manifest.json">
 
 	<!-- from realfavicongenerator.net -->
@@ -24,8 +24,8 @@ function randVid(){
 		download: true,
 		complete: function(results) {
 			let r = Math.floor(Math.random() * (results.data.length-1) + 1);
-			document.getElementById("videotitle").innerHTML="<a href='" + results.data[r][0] + "'><img src='https://i.ytimg.com/vi/" + results.data[r][6] + "/default.jpg' /><br />" + results.data[r][1] + "</a><br />" + results.data[r][2] + "<br />" + results.data[r][4];
-			// window.location.href=results.data[r][0];
+			document.getElementById("videotitle").innerHTML=results.data[r][1];
+			window.location.href=results.data[r][0];
 			// window.close();
 		}
 	});
