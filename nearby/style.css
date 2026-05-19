@@ -34,9 +34,12 @@ span {
 	transform: translate(0,-50%);
 	left:50%;
 	top:calc(var(--myvar,0.5) * (100vh - 2 * 3vh) + 3vh);
+	line-height:1;
 }
 span:before {
 	content: url("dotleft.svg");
+	border:1px solid red;
+	vertical-align:top;
 }
 
 /*hide spinner buttons*/
