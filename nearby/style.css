@@ -1,10 +1,10 @@
 @font-face { font-family: cascadia-mono-num; src: url('cmNum.woff2'); }
 html {
-	height:100%;
-	font-family:sans;
 	font-size:3vh;
 }
 body {
+	font-family:sans;
+	height:100%;
 	background-color:#606060;
 	color:white;
 }
@@ -12,35 +12,45 @@ body {
 input {
 	position:absolute;
 	top:50%;
-	right:50%;
+	right:55%;
 	transform: translate(0,-50%);
 	appearance:unset;
 	box-sizing: border-box; /*fixes the problem where the 100% width with padding overlaps the container*/
-	/*min-width:2rem;*/
 	background-color: #000000;
 	color: #ffffff;
-	/*width:100%;*/
 	font-family:cascadia-mono-num, monospace;
 	border:0px;
 	border-radius:.5rem;
 	padding:.5rem;
 	font-size: 1.5rem;
 	text-align:right;
-	width:25%;
+	max-width:25%;
+	min-width:5%;
+}
+
+svg {
+	position:absolute;
+	left:45%;
+	top:0;
+	height:100%;
+	width:10%;
+}
+svg path {
+	stroke:#ffffff; stroke-width:0.5px;
 }
 
 span {
 	position:absolute;
 	transform: translate(0,-50%);
-	left:50%;
+	left:55%;
 	top:calc(var(--myvar,0.5) * (100vh - 2 * 3vh) + 3vh);
 	line-height:1;
+	background-color:#ffffff;
+	color:#000000;
+	border-radius:.2rem;
+	padding:.2rem;
 }
-span:before {
-	content: url("dotleft.svg");
-	border:1px solid red;
-	vertical-align:top;
-}
+
 
 /*hide spinner buttons*/
 input[type='number'] {

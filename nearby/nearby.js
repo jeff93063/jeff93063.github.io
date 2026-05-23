@@ -31,6 +31,7 @@ function reduce(num, denom){
 }
 
 function calculate() {
+	document.getElementById("svg").innerHTML = "";
 	let nearby = [];
 	let numIn = parseFloat(document.getElementById("numIn").value);
 	let prevMetric = Math.floor(numIn / inchmm);
@@ -87,21 +88,19 @@ function calculate() {
 	let afterString = "";
 	let equalString = "";
 	for (k=0;k<nearby.length;k++){
+		let top = .5;
 		if (nearby[k][0].toFixed(4) == numIn.toFixed(4)){
 			equalString += nearby[k][0].toFixed(4) + " = " + nearby[k][1] + "<br />";
 		}
-		else if (nearby[k][0] < numIn){
-			console.log(nearby[k][0]);
-			let top = .5 + ((numIn - nearby[k][0])/spread) * .5;
-			console.log(top);
-			afterString += "<span style='--myvar:" + top + ";'>" + nearby[k][0].toFixed(4) + " = " + nearby[k][1] + "</span>";
-		}
 		else{
 			console.log(nearby[k][0]);
-			let top = .5 - ((nearby[k][0] - numIn)/spread) * .5;
+			// top = .5 - ((nearby[k][0] - numIn)/spread) * .5;
+			top = .5 + ((numIn - nearby[k][0])/spread) * .5;
+
 			console.log(top);
 			beforeString += "<span style='--myvar:" + top + ";'>" + nearby[k][0].toFixed(4) + " = " + nearby[k][1] + "</span>";
 		}
+		document.getElementById("svg").innerHTML += "<path d='m 0," + (top * 94 + 3) + " h 100%' />";
 	}
 	document.getElementById("output").innerHTML = beforeString + "<span style='--myvar:.5;'>" + equalString + "</span>" + afterString;
 }
