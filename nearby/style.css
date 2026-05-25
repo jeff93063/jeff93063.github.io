@@ -1,4 +1,7 @@
-@font-face { font-family: cascadia-mono-num; src: url('cmNum.woff2'); }
+@font-face {
+	font-family: cascadia-mono-num;
+	src: url('cmNum.woff2');
+}
 html {
 	font-size:3vh;
 }
@@ -33,10 +36,15 @@ svg {
 	left:45%;
 	top:0;
 	height:100%;
-	width:10%;
+	width:50%;
 }
 svg path {
-	stroke:#ffffff; stroke-width:0.5px;
+	stroke:#ffffff; stroke-width:1px;
+}
+
+.label {
+	font: 10px sans;
+	fill:#808080;
 }
 
 span {

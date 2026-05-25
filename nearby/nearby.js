@@ -87,10 +87,12 @@ function calculate() {
 	let beforeString = "";
 	let afterString = "";
 	let equalString = "";
+	let showEqual = false;
 	for (k=0;k<nearby.length;k++){
 		let top = .5;
 		if (nearby[k][0].toFixed(4) == numIn.toFixed(4)){
 			equalString += nearby[k][0].toFixed(4) + " = " + nearby[k][1] + "<br />";
+			showEqual = true;
 		}
 		else{
 			console.log(nearby[k][0]);
@@ -100,7 +102,11 @@ function calculate() {
 			console.log(top);
 			beforeString += "<span style='--myvar:" + top + ";'>" + nearby[k][0].toFixed(4) + " = " + nearby[k][1] + "</span>";
 		}
-		document.getElementById("svg").innerHTML += "<path d='m 0," + (top * 94 + 3) + " h 100%' />";
+		document.getElementById("svg").innerHTML += "<path vector-effect='non-scaling-stroke' fill='none' d='m 0," + (top * 94 + 3) + " h 10 v 0 h 10' />"; // v 0 = vertical jog distance
 	}
-	document.getElementById("output").innerHTML = beforeString + "<span style='--myvar:.5;'>" + equalString + "</span>" + afterString;
+	document.getElementById("output").innerHTML = beforeString;
+	if(showEqual){
+		document.getElementById("output").innerHTML += "<span style='--myvar:.5;'>" + equalString + "</span>"
+	}
+	document.getElementById("output").innerHTML += afterString;
 }
