@@ -26,14 +26,22 @@ function gcd(a, b) {
 }
 
 function reduce(num, denom){
-	let g = gcd(num,denom);
-	return num/g + "/" + denom/g;
+	let wholeInches = Math.floor(num / denom);
+	let newNum = num - wholeInches * denom;
+	let g = gcd(newNum,denom);
+	if(wholeInches > 0){
+		return wholeInches + " " + newNum/g + "/" + denom/g;
+	}
+	else {
+		return newNum/g + "/" + denom/g;
+	}
 }
 
 function calculate() {
 	document.getElementById("svg").innerHTML = "";
 	let nearby = [];
 	let numIn = parseFloat(document.getElementById("numIn").value);
+	// ========METRIC==========
 	let prevMetric = Math.floor(numIn / inchmm);
 	let nextMetric = Math.ceil(numIn / inchmm);
 	let nearestMetric = Math.round(numIn / inchmm);
@@ -46,7 +54,9 @@ function calculate() {
 		nearby.push([prevMetric*inchmm,prevMetric + " mm"]);
 		nearby.push([nextMetric*inchmm,nextMetric + " mm"]);
 	}
-	for (i=0;i<fracPrec;i++){
+	// =========FRACTIONAL==========
+	let nextInch = Math.ceil(numIn);
+	for (i=0;i<(fracPrec * nextInch);i++){
 		if((i/fracPrec).toFixed(4) == numIn.toFixed(4)){ //right on the money, push 3 numbers instead of 2
 			nearby.push([(i-1)/fracPrec, reduce(i-1,fracPrec)]);
 			nearby.push([i/fracPrec, reduce(i, fracPrec)]);
@@ -57,7 +67,8 @@ function calculate() {
 			nearby.push([(i+1)/fracPrec, reduce(i+1,fracPrec)]);
 		}
 	}
-	for (j=0; j<drills.length; j++){
+	// ==============DRILLS============
+	for (j=0; j<(drills.length-1); j++){
 		if(drills[j][0] == numIn){ //right on the money
 			nearby.push(drills[j-1]);
 			nearby.push(drills[j]);
@@ -68,6 +79,7 @@ function calculate() {
 			nearby.push(drills[j+1]);
 		}
 	}
+	// =================================
 	nearby.sort(function(a,b){
 		return b[0]-a[0];
 	});
@@ -80,7 +92,7 @@ function calculate() {
 	else{
 		spread = max - numIn;
 	}
-	console.log("min=" + min + "\nmax=" + max + "\nspread=" + spread);
+	// console.log("min=" + min + "\nmax=" + max + "\nspread=" + spread);
 	for (m=0;m<nearby.length;m++){
 
 	}
@@ -95,11 +107,11 @@ function calculate() {
 			showEqual = true;
 		}
 		else{
-			console.log(nearby[k][0]);
+			// console.log(nearby[k][0]);
 			// top = .5 - ((nearby[k][0] - numIn)/spread) * .5;
 			top = .5 + ((numIn - nearby[k][0])/spread) * .5;
 
-			console.log(top);
+			// console.log(top);
 			beforeString += "<span style='--myvar:" + top + ";'>" + nearby[k][0].toFixed(4) + " = " + nearby[k][1] + "</span>";
 		}
 		document.getElementById("svg").innerHTML += "<path vector-effect='non-scaling-stroke' fill='none' d='m 0," + (top * 94 + 3) + " h 10 v 0 h 10' />"; // v 0 = vertical jog distance
