@@ -1,0 +1,22 @@
+<html>
+<head>
+<script src="papaparse.min.js"></script>
+<script>
+function populateThread(){
+	// Papa.parse("https://jeff93063.github.io/tapdrill/tapdrill.csv", {
+	Papa.parse("./tapdrill.csv", {
+		download: true,
+		complete: function(results) {
+			// let r = Math.floor(Math.random() * (results.data.length-1) + 1);
+			document.getElementById("videotitle").innerHTML = results.data[100][2];
+			// document.getElementById("videotitle").innerHTML = "eee";
+
+		}
+	});
+}
+</script>
+</head>
+<body onload="populateThread();">
+<div id="videotitle"></div>
+</body>
+</html>
