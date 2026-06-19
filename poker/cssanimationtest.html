@@ -1,11 +1,22 @@
 <style>
 div {
+	animation-name:eee;
     animation-duration:.25s;
-    animation-name:eee;
     background-color:#f0f0f0;
-    width:50px;
-    height:80px;
+   /* width:50px;*/
+    height:min(50vh, 20vw);
+	aspect-ratio:0.71;
+	float:left;
     filter: drop-shadow(0px 0px 2px #000000a0);
+}
+div#c1 {
+	
+}
+div#c2 {
+	animation-delay:.25s;
+}
+div#c3 {
+	animation-delay:.5s;
 }
 @keyframes eee {
 	from {
@@ -14,4 +25,7 @@ div {
 	}
 }
 </style>
-<div>test</div>
+<div id="c1">test</div>
+<div id="c2">test2</div>
+<div id="c3">test3</div>
+

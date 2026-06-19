@@ -38,7 +38,7 @@ function reduce(num, denom){
 }
 
 function calculate() {
-	document.getElementById("svg").innerHTML = "";
+	document.getElementById("svg").innerHTML = "<path vector-effect='non-scaling-stroke' fill='none' d='m 0,50 h 10' />";
 	let nearby = [];
 	let numIn = parseFloat(document.getElementById("numIn").value);
 	// ========METRIC==========
@@ -114,7 +114,7 @@ function calculate() {
 			// console.log(top);
 			beforeString += "<span style='--myvar:" + top + ";'>" + nearby[k][0].toFixed(4) + " = " + nearby[k][1] + "</span>";
 		}
-		document.getElementById("svg").innerHTML += "<path vector-effect='non-scaling-stroke' fill='none' d='m 0," + (top * 94 + 3) + " h 10 v 0 h 10' />"; // v 0 = vertical jog distance
+		document.getElementById("svg").innerHTML += "<path vector-effect='non-scaling-stroke' fill='none' d='m 10," + (top * 94 + 3) + " h 5 v 0 h 5' />"; // v 0 = vertical jog distance
 	}
 	document.getElementById("output").innerHTML = beforeString;
 	if(showEqual){
