@@ -1,10 +1,7 @@
-const staticCacheName = "oney-static-v03";
+const staticCacheName = "oney-static-v04";
 const assets = [
 	"/oney/",
-	"/oney/index.html",
-	"/oney/style.css",
-	"/oney/papaparse.min.js",
-	"/oney/oney.csv"
+	"/oney/index.html"
 ];
 
 self.addEventListener("install", installEvent => {
