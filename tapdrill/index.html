@@ -1,16 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<style>
+	<title>TapDrill</title>
+	<link rel="manifest" href="manifest.json">
+
+	<!-- from realfavicongenerator.net -->
+	<link rel="icon" type="image/png" href="icons/96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="icons/favicon.svg" />
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+	<meta name="theme-color" content="#4D5359">
+	<!--							   -->
+
+	<meta charset="UTF-8">
+	<meta name="darkreader-lock">
+	<meta name="color-scheme" content="only light">
+	<meta name="viewport" content="width=device-width, interactive-widget=resizes-content, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+<style type="text/css">
 html {
 	height:100%;
 	font-family:sans;
-	font-size:min(7vw, 8vh);
+	font-size:min(7.5vw, 8vh);
 }
 body {
-	background-color:#606060;
+	background-color:#4D5359;
 	color:white;
 	height:100%;
+	margin:0;
+	padding:0;
+}
+div#gridContainer {
+	display:grid;
+	gap:.5rem;
+	position:absolute;
+	top:50%;
+	transform: translateY(-50%);
+	left:0px;
+	right:0px;
+	grid-template-rows: auto auto;
+}
+
+div#controls {
+	display:inline;
+	text-align:center;
+	text-wrap:nowrap;
 	margin:0;
 	padding:0;
 }
@@ -18,7 +51,6 @@ select {
 	background-color:#000000;
 	color:#ffffff;
 	min-width:2rem;
-/* 	width:100%; */
 	border:0px;
 	border-radius:.5rem;
 	padding:.5rem;
@@ -32,7 +64,7 @@ select {
 	font-size: 1rem;
 }
 div#output {
-	font-size:.75rem;
+	font-size:.8rem;
 }
 table {
 	border-collapse:collapse;
@@ -40,14 +72,48 @@ table {
 	margin-right:auto;
 }
 th, td {
-	border:1px solid white;
+/* 	border:1px solid white; */
+	padding:.2rem;
 }
 th {
+	font-weight:900;
 	font-size:.5rem;
 	text-align:right;
+	border-right:2px solid white;
 }
 </style>
 <script type="text/javascript">
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function() {
+	navigator.serviceWorker
+	  .register("serviceWorker.js")
+	  .then(res => console.log("service worker registered"))
+	  .catch(err => console.log("service worker not registered", err))
+  })
+}
+function setCookie(name,value,days) { //https://stackoverflow.com/questions/14573223/set-cookie-and-get-cookie-with-javascript
+	console.log("cookie name=" + name + " value=" + value + " days=" + days);
+	var expires = "";
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime() + (days*24*60*60*1000));
+		expires = "; expires=" + date.toUTCString();
+	}
+	document.cookie = name + "=" + (value || "")  + expires + "; path=/; SameSite=Strict";
+}
+function getCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+}
+function eraseCookie(name) {
+	document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
 function $(id) { return document.getElementById(id); }
 let activeData = [];
 
@@ -121,98 +187,95 @@ var inchData = [
 var metricData = [
 	// 0:Size, 1:Pitch, 2:Drill Al, 3:Drill Stl, 4:Clearance Close,
 	// 5:Clearance Std, 6:Class, 7:Helicoil Drill Al, 8:Helicoil Drill Stl
-	[1,   0.25, 0.75,  ,      ,,"coarse",,],
-	[1.1, 0.25, 0.85,  ,      ,,"coarse",,],
-	[1.2, 0.25, 0.95,  ,      ,,"coarse",,],
-	[1.4, 0.3,  1.1,   ,      ,,"coarse",,],
-	[1.5, 0.35, 1.15,  1.25,  1.6,1.65,"coarse",,],
-	[1.6, 0.35, 1.25,  1.35,  1.7,1.75,"coarse",,],
-	[1.7, 0.35, 1.3,   ,      ,,"coarse",,],
-	[1.8, 0.35, 1.45,  1.55,  1.9,2,"coarse",,],
-	[2,   0.4,  1.6,   1.75,  2.1,2.2,"coarse",2.1,2.1],
-	[2,   0.45, 1.55,  1.7,   2.1,2.2,"coarse",,],
-	[2.2, 0.45, 1.75,  1.9,   2.3,2.4,"coarse",2.3,2.35],
-	[2.5, 0.45, 2.05,  2.2,   2.65,2.75,"coarse",2.55,2.65],
-	[3,   0.5,  2.5,   2.7,   3.15,3.3,"coarse",3.15,3.2],
-	[3,   0.6,  2.4,   2.6,   3.15,3.3,"coarse",,],
-	[3.5, 0.6,  2.9,   3.1,   3.7,3.85,"coarse",3.7,3.7],
-	[4,   0.35, 3.6,   ,      ,,"fine",,],
-	[4,   0.5,  3.5,   ,      ,,"fine",,],
-	[4,   0.7,  3.3,   3.5,   4.2,4.4,"coarse",4.2,4.25],
-	[4,   0.75, 3.25,  3.5,   4.2,4.4,"coarse",,],
-	[4.5, 0.75, 3.75,  4,     4.75,5,"coarse",,],
-	[5,   0.5,  4.5,   ,      ,,"fine",,],
-	[5,   0.8,  4.2,   4.5,   5.25,5.5,"coarse",5.2,5.3],
-	[5,   0.9,  4.1,   4.4,   5.25,5.5,"coarse",,],
-	[5,   1,    4,     4.4,   5.25,5.5,,,],
-	[5.5, 0.9,  4.6,   4.9,   5.8,6.1,,,],
-	[6,   0.5,  5.5,   ,      ,,"fine",,],
-	[6,   0.75, 5.25,  5.5,   6.3,6.6,"fine",,],
-	[6,   1,    5,     5.4,   6.3,6.6,"coarse",6.25,6.3],
-	[7,   0.75, 6.25,  6.5,   7.4,7.7,"fine",,],
-	[7,   1,6,  6.4,   7.4,   7.7,"coarse",7.25,7.3],
-	[8,   0.5,  7.5,   ,      ,,"fine",,],
-	[8,   0.75, 7.25,  ,      ,,"fine",,],
-	[8,   1,    7,     7.4,   8.4,8.8,"fine",8.25,8.3],
-	[8,   1.25, 6.8,   7.2,   8.4,8.8,"coarse",8.3,8.4],
-	[9,   1,    8,     8.4,   9.5,9.9,"fine",,],
-	[9,   1.25, 7.8,   8.2,   9.5,9.9,"coarse",,],
-	[10,  0.75, 9.25,  ,      ,,"fine",,],
-	[10,  1,    9,     9.4,   10.5,11,"fine",10.25,10.25],
-	[10,  1.25, 8.8,   9.2,   10.5,11,"fine",10.25,10.25],
-	[10,  1.5,  8.5,   9,     10.5,11,"coarse",10.5,10.5],
-	[11,  1,    10,    ,      ,,"fine",,],
-	[11,  1.5,  9.5,   10,    11.6,12.1,"coarse",,],
-	[12,  0.75, 11.25, ,      ,,"fine",,],
-	[12,  1,    11,    ,      ,,"fine",,],
-	[12,  1.25, 10.8,  11.2,  12.6,13.2,,12.25,12.25],
-	[12,  1.5,  10.5,  11,    12.6,13.2,"fine",12.25,12.5],
-	[12,  1.75, 10.3,  10.9,  12.6,13.2,"coarse",12.5,12.5],
-	[14,  1,    13,    ,      ,,"fine",,],
-	[14,  1.25, 12.8,  13.2,  14.75,15.5,"fine",,],
-	[14,  1.5,  12.5,  13,    14.75,15.5,"fine",14.25,14.5],
-	[14,  2,    12.1,  12.7,  14.75,15.5,"coarse",14.5,14.5],
-	[15,  1.5,  13.5,  14,    15.75,16.5,,,],
-	[16,  1,    15,    ,      ,,"fine",,],
-	[16,  1.5,  14.5,  15,    16.75,17.5,"fine",16.25,16.5],
-	[16,  2,    14,    14.75, 16.75,17.5,"coarse",16.5,16.5],
-	[17,  1.5,  15.5,  16,    18,18.5,,,],
-	[18,  1,    17,    ,      ,,"fine",,],
-	[18,  1.5,  16.5,  17,19, 20,,18.25,18.5],
-	[18,  2,    16,    16.75, 19,20,"fine",18.5,18.5],
-	[18,  2.5,  15.5,  16.5,  19,20,"coarse",18.75,18.75],
-	[19,  2.5,  16.5,  17.5,  20,21,,,],
-	[20,  1,    19,    ,      ,,"fine",,],
-	[20,  1.5,  18.5,  19,    21,22,,20.25,20.5],
-	[20,  2,    18,    18.5,  21,22,,20.5,20.5],
-	[20,  2.5,  17.5,  18.5,  21,22,,20.75,20.75],
-	[22,  1,    21,    ,      ,,"fine",,],
-	[22,  1.5,  20.5,  ,      ,,"fine",22.25,22.5],
-	[22,  2,    20,    ,      ,,"fine",22.5,22.5],
-	[22,  2.5,  19.5,  ,      ,,"coarse",22.75,22.75],
-	[24,  1.5,  22.5,  ,      ,,"fine",,],
-	[24,  2,    22,    ,      ,,"fine",24.5,24.5],
-	[24,  3,    21,    ,      ,,"coarse",24.75,24.75],
-	[26,  1.5,  24.5,  ,      ,,"fine",,],
-	[27,  1.5,  25.5,  ,      ,,"fine",,],
-	[27,  2,    25,    ,      ,,"fine",27.5,27.5],
-	[27,  3,    24,    ,      ,,"coarse",27.75,27.75],
-	[28,  1.5,  26.5,  ,      ,,"fine",,],
-	[30,  1.5,  28.5,  ,      ,,"fine",,],
-	[30,  2,    28,    ,      ,,"fine",30.5,30.5],
-	[30,  3.5,  26.5,  ,      ,,"coarse",31,31],
-	[33,  2,    31,    ,      ,,"fine",33.5,33.5],
-	[33,  3.5,  29.5,  ,      ,,"coarse",34,34],
-	[36,  2,    ,      ,      ,,"fine",36.5,36.5],
-	[36,  3,    33,    ,      ,,"fine",37,37],
-	[36,  4,    32,    ,      ,,"coarse",37,37],
-	[39,  2,    ,      ,      ,,"fine",39.5,39.5],
-	[39,  3,    36,    ,      ,,"fine",40,40],
-	[39,  4,    35,    ,      ,,"coarse",40,40]
+	[1,   0.25, 0.75,  ,      ,      ,     "coarse", ,           ],
+	[1.1, 0.25, 0.85,  ,      ,      ,     "coarse", ,           ],
+	[1.2, 0.25, 0.95,  ,      ,      ,     "coarse", ,           ],
+	[1.4, 0.3,  1.1,   ,      ,      ,     "coarse", ,           ],
+	[1.5, 0.35, 1.15,  1.25,  1.6,   1.65, "coarse", ,           ],
+	[1.6, 0.35, 1.25,  1.35,  1.7,   1.75, "coarse", ,           ],
+	[1.7, 0.35, 1.3,   ,      ,      ,     "coarse", ,           ],
+	[1.8, 0.35, 1.45,  1.55,  1.9,   2,    "coarse", ,           ],
+	[2,   0.4,  1.6,   1.75,  2.1,   2.2,  "coarse", 2.1,   2.1  ],
+	[2,   0.45, 1.55,  1.7,   2.1,   2.2,  "coarse", ,           ],
+	[2.2, 0.45, 1.75,  1.9,   2.3,   2.4,  "coarse", 2.3,   2.35 ],
+	[2.5, 0.45, 2.05,  2.2,   2.65,  2.75, "coarse", 2.55,  2.65 ],
+	[3,   0.5,  2.5,   2.7,   3.15,  3.3,  "coarse", 3.15,  3.2  ],
+	[3,   0.6,  2.4,   2.6,   3.15,  3.3,  "coarse", ,           ],
+	[3.5, 0.6,  2.9,   3.1,   3.7,   3.85, "coarse", 3.7,   3.7  ],
+	[4,   0.35, 3.6,   ,      ,      ,     "fine",   ,           ],
+	[4,   0.5,  3.5,   ,      ,      ,     "fine",   ,           ],
+	[4,   0.7,  3.3,   3.5,   4.2,   4.4,  "coarse", 4.2,   4.25 ],
+	[4,   0.75, 3.25,  3.5,   4.2,   4.4,  "coarse", ,           ],
+	[4.5, 0.75, 3.75,  4,     4.75,  5,    "coarse", ,           ],
+	[5,   0.5,  4.5,   ,      ,      ,     "fine",   ,           ],
+	[5,   0.8,  4.2,   4.5,   5.25,  5.5,  "coarse", 5.2,   5.3  ],
+	[5,   0.9,  4.1,   4.4,   5.25,  5.5,  "coarse", ,           ],
+	[5,   1,    4,     4.4,   5.25,  5.5,  ,         ,           ],
+	[5.5, 0.9,  4.6,   4.9,   5.8,   6.1,  ,         ,           ],
+	[6,   0.5,  5.5,   ,      ,      ,     "fine",   ,           ],
+	[6,   0.75, 5.25,  5.5,   6.3,   6.6,  "fine",   ,           ],
+	[6,   1,    5,     5.4,   6.3,   6.6,  "coarse", 6.25,  6.3  ],
+	[7,   0.75, 6.25,  6.5,   7.4,   7.7,  "fine",   ,           ],
+	[7,   1,    6,     6.4,   7.4,   7.7,  "coarse", 7.25,  7.3  ],
+	[8,   0.5,  7.5,   ,      ,      ,     "fine",   ,           ],
+	[8,   0.75, 7.25,  ,      ,      ,     "fine",   ,           ],
+	[8,   1,    7,     7.4,   8.4,   8.8,  "fine",   8.25,  8.3  ],
+	[8,   1.25, 6.8,   7.2,   8.4,   8.8,  "coarse", 8.3,   8.4  ],
+	[9,   1,    8,     8.4,   9.5,   9.9,  "fine",   ,           ],
+	[9,   1.25, 7.8,   8.2,   9.5,   9.9,  "coarse", ,           ],
+	[10,  0.75, 9.25,  ,      ,      ,     "fine",   ,           ],
+	[10,  1,    9,     9.4,   10.5,  11,   "fine",   10.25, 10.25],
+	[10,  1.25, 8.8,   9.2,   10.5,  11,   "fine",   10.25, 10.25],
+	[10,  1.5,  8.5,   9,     10.5,  11,   "coarse", 10.5,  10.5 ],
+	[11,  1,    10,    ,      ,      ,     "fine",   ,           ],
+	[11,  1.5,  9.5,   10,    11.6,  12.1, "coarse", ,           ],
+	[12,  0.75, 11.25, ,      ,      ,     "fine",   ,           ],
+	[12,  1,    11,    ,      ,      ,     "fine",   ,           ],
+	[12,  1.25, 10.8,  11.2,  12.6,  13.2, ,         12.25, 12.25],
+	[12,  1.5,  10.5,  11,    12.6,  13.2, "fine",   12.25, 12.5 ],
+	[12,  1.75, 10.3,  10.9,  12.6,  13.2, "coarse", 12.5,  12.5 ],
+	[14,  1,    13,    ,      ,      ,     "fine",   ,           ],
+	[14,  1.25, 12.8,  13.2,  14.75, 15.5, "fine",   ,           ],
+	[14,  1.5,  12.5,  13,    14.75, 15.5, "fine",   14.25, 14.5 ],
+	[14,  2,    12.1,  12.7,  14.75, 15.5, "coarse", 14.5,  14.5 ],
+	[15,  1.5,  13.5,  14,    15.75, 16.5, ,         ,           ],
+	[16,  1,    15,    ,      ,      ,     "fine",   ,           ],
+	[16,  1.5,  14.5,  15,    16.75, 17.5, "fine",   16.25, 16.5 ],
+	[16,  2,    14,    14.75, 16.75, 17.5, "coarse", 16.5,  16.5 ],
+	[17,  1.5,  15.5,  16,    18,    18.5, ,         ,           ],
+	[18,  1,    17,    ,      ,      ,     "fine",   ,           ],
+	[18,  1.5,  16.5,  17,    19,    20,   "fine",   18.25, 18.5 ],
+	[18,  2,    16,    16.75, 19,    20,   "fine",   18.5,  18.5 ],
+	[18,  2.5,  15.5,  16.5,  19,    20,   "coarse", 18.75, 18.75],
+	[19,  2.5,  16.5,  17.5,  20,    21,   ,         ,           ],
+	[20,  1,    19,    ,      ,      ,     "fine",   ,           ],
+	[20,  1.5,  18.5,  19,    21,    22,   ,         20.25, 20.5 ],
+	[20,  2,    18,    18.5,  21,    22,   ,         20.5,  20.5 ],
+	[20,  2.5,  17.5,  18.5,  21,    22,   ,         20.75, 20.75],
+	[22,  1,    21,    ,      ,      ,     "fine",   ,           ],
+	[22,  1.5,  20.5,  ,      ,      ,     "fine",   22.25, 22.5 ],
+	[22,  2,    20,    ,      ,      ,     "fine",   22.5,  22.5 ],
+	[22,  2.5,  19.5,  ,      ,      ,     "coarse", 22.75, 22.75],
+	[24,  1.5,  22.5,  ,      ,      ,     "fine",   ,           ],
+	[24,  2,    22,    ,      ,      ,     "fine",   24.5,  24.5 ],
+	[24,  3,    21,    ,      ,      ,     "coarse", 24.75, 24.75],
+	[26,  1.5,  24.5,  ,      ,      ,     "fine",   ,           ],
+	[27,  1.5,  25.5,  ,      ,      ,     "fine",   ,           ],
+	[27,  2,    25,    ,      ,      ,     "fine",   27.5,  27.5 ],
+	[27,  3,    24,    ,      ,      ,     "coarse", 27.75, 27.75],
+	[28,  1.5,  26.5,  ,      ,      ,     "fine",   ,           ],
+	[30,  1.5,  28.5,  ,      ,      ,     "fine",   ,           ],
+	[30,  2,    28,    ,      ,      ,     "fine",   30.5,  30.5 ],
+	[30,  3.5,  26.5,  ,      ,      ,     "coarse", 31,    31   ],
+	[33,  2,    31,    ,      ,      ,     "fine",   33.5,  33.5 ],
+	[33,  3.5,  29.5,  ,      ,      ,     "coarse", 34,    34   ],
+	[36,  2,    ,      ,      ,      ,     "fine",   36.5,  36.5 ],
+	[36,  3,    33,    ,      ,      ,     "fine",   37,    37   ],
+	[36,  4,    32,    ,      ,      ,     "coarse", 37,    37   ],
+	[39,  2,    ,      ,      ,      ,     "fine",   39.5,  39.5 ],
+	[39,  3,    36,    ,      ,      ,     "fine",   40,    40   ],
+	[39,  4,    35,    ,      ,      ,     "coarse", 40,    40   ]
 ];
-
-// console.log(inchData[7][0]);
-// console.log(metricData[7][6]);
 
 function onlyUnique(value, index, array) {
 	return array.indexOf(value) === index;
@@ -229,7 +292,35 @@ function selectUnits() {
 		$("prefix").innerHTML = "M";
 		$("dash").innerHTML = "x";
 	}
+	setCookie("inchmetric",$("inchmetric").value,99);
 	initSizeMenu();
+}
+
+function initialize() { //grab all values from cookie if it exists
+	if(getCookie("inchmetric")){
+		console.log("inchmetric exists in cookie");
+		for(m of $("inchmetric").options){
+			if(getCookie("inchmetric") == m.value){
+				m.selected = true;
+				console.log("set inchmetric from cookie in <select> element");
+			}
+		}
+	}
+	selectUnits();
+	if(getCookie("size")){
+		for(m of $("size").options){
+			if(getCookie("size") == m.value){
+				m.selected = true;
+			}
+		}
+	}
+	if(getCookie("pitch")){
+		for(m of $("pitch").options){
+			if(getCookie("pitch") == m.value){
+				m.selected = true;
+			}
+		}
+	}
 }
 
 function initSizeMenu() {
@@ -247,6 +338,7 @@ function initSizeMenu() {
 
 function initPitchMenu(){
 	$("pitch").innerHTML = "";
+	setCookie("size",$("size").value,99);
 	for(i=0; i<activeData.length; i++){
 		if(activeData[i][0] == $("size").value){
 			$("pitch").innerHTML += "<option value='" + activeData[i][1] + "'>" + activeData[i][1] + "</option>";
@@ -255,20 +347,26 @@ function initPitchMenu(){
 	selectThread();
 }
 
+function check(item){
+	if (typeof item !== 'undefined'){
+		return item;
+	}
+	else {
+		return "&nbsp;";
+	}
+}
+
 function selectThread(){
+	setCookie("pitch",$("pitch").value,99);
 	for(i=0; i<activeData.length; i++){
 		if(activeData[i][0] == $("size").value && activeData[i][1] == $("pitch").value){
 			let outString = "<table>";
-			outString += "<tr><th>Drill Size (Al)</th><td>" + activeData[i][2] + "</td></tr>";
-			outString += "<tr><th>Drill Size (Stl)</th><td>" + activeData[i][3] + "</td></tr>";
-			if (typeof activeData[i][7] !== 'undefined'){
-				outString += "<tr><th>Helicoil Drill (Al)</th><td>" + activeData[i][7] + "</td></tr>";
-			}
-			if (typeof activeData[i][8] !== 'undefined'){
-				outString += "<tr><th>Helicoil Drill (Stl)</th><td>" + activeData[i][8] + "</td></tr>";
-			}
-			outString += "<tr><th>Clearance Drill (Close)</th><td>" + activeData[i][4] + "</td></tr>";
-			outString += "<tr><th>Clearance Drill (Standard)</th><td>" + activeData[i][5] + "</td></tr>";
+			outString += "<tr><th>Drill Size (Al)</th><td>" + check(activeData[i][2]) + "</td></tr>";
+			outString += "<tr><th>Drill Size (Stl)</th><td>" + check(activeData[i][3]) + "</td></tr>";
+			outString += "<tr><th>Helicoil Drill (Al)</th><td>" + check(activeData[i][7]) + "</td></tr>";
+			outString += "<tr><th>Helicoil Drill (Stl)</th><td>" + check(activeData[i][8]) + "</td></tr>";
+			outString += "<tr><th>Clearance Drill (Close)</th><td>" + check(activeData[i][4]) + "</td></tr>";
+			outString += "<tr><th>Clearance Drill (Standard)</th><td>" + check(activeData[i][5]) + "</td></tr>";
 			outString += "</table>";
 			$("output").innerHTML = outString;
 		}
@@ -277,13 +375,16 @@ function selectThread(){
 
 </script>
 </head>
-<body onLoad="selectUnits();">
-<div></div>
-<select id="inchmetric" onChange="selectUnits();">
-	<option value="inch">Inch</option>
-	<option value="metric">Metric</option>
-</select>
-<span id="prefix"></span><select id="size" onChange="initPitchMenu();"></select><span id="dash">—</span><select id="pitch" onChange="selectThread();"></select>
-<div id="output"></div>
-</body>
+	<body onLoad="initialize();">
+		<div id="gridContainer">
+			<div id="controls">
+				<select id="inchmetric" onChange="selectUnits();">
+					<option value="inch">Inch</option>
+					<option value="metric">Metric</option>
+				</select>
+				<span id="prefix"></span><select id="size" onChange="initPitchMenu();"></select><span id="dash">—</span><select id="pitch" onChange="selectThread();"></select>
+			</div>
+			<div id="output"></div>
+		</div>
+	</body>
 </html>
