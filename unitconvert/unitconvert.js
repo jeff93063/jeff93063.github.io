@@ -40,160 +40,28 @@ var last = null;
 var disableAutoFocus = false;
 var focused = [];
 var unitTypeData = [
-	{
-		"id": "temp",
-		"text": "Temperature",
-		"defaultA": "c",
-		"defaultB": "f"
-	},
-	{
-		"id": "length",
-		"text": "Length",
-		"defaultA": "in",
-		"defaultB": "mm"
-	},
-	{
-		"id": "speed",
-		"text": "Speed",
-		"defaultA": "mph",
-		"defaultB": "kph"
-	},
-	{
-		"id": "power",
-		"text": "Power",
-		"defaultA": "w",
-		"defaultB": "hp"
-	}
+	{"id": "temp",   "text": "Temperature", "defaultA": "c",   "defaultB": "f"},
+	{"id": "length", "text": "Length",      "defaultA": "in",  "defaultB": "mm"},
+	{"id": "speed",  "text": "Speed",       "defaultA": "mph", "defaultB": "kph"},
+	{"id": "power",  "text": "Power",       "defaultA": "w",   "defaultB": "hp"}
 ];
 var unitdata = [
-	{
-		"id": "in",
-		"text": "in",
-		"type": "length",
-		"preoffset": 0,
-		"multiplier": 0.0254,
-		"postoffset": 0
-	},
-	{
-		"id": "ft",
-		"text": "ft",
-		"type": "length",
-		"preoffset": 0,
-		"multiplier": 0.3048,
-		"postoffset": 0
-	},
-	{
-		"id": "mm",
-		"text": "mm",
-		"type": "length",
-		"preoffset": 0,
-		"multiplier": 0.001,
-		"postoffset": 0
-	},
-	{
-		"id": "m",
-		"text": "m",
-		"type": "length",
-		"preoffset": 0,
-		"multiplier": 1,
-		"postoffset": 0
-	},
-	{
-		"id": "km",
-		"text": "km",
-		"type": "length",
-		"preoffset": 0,
-		"multiplier": 1000,
-		"postoffset": 0
-	},
-	{
-		"id": "mi",
-		"text": "mi",
-		"type": "length",
-		"preoffset": 0,
-		"multiplier": 1609.344,
-		"postoffset": 0
-	},
-	{
-		"id": "c",
-		"text": "&#176;C",
-		"type": "temp",
-		"preoffset": 0,
-		"multiplier": 1,
-		"postoffset": 273.15
-	},
-	{
-		"id": "f",
-		"text": "&#176;F",
-		"type": "temp",
-		"preoffset": -32,
-		"multiplier": 5/9,
-		"postoffset": 273.15
-	},
-	{
-		"id": "k",
-		"text": "Kelvin",
-		"type": "temp",
-		"preoffset": 0,
-		"multiplier": 1,
-		"postoffset": 0
-	},
-	{
-		"id": "mph",
-		"text": "mph",
-		"type": "speed",
-		"preoffset": 0,
-		"multiplier": 0.44704,
-		"postoffset": 0
-	},
-	{
-		"id": "kph",
-		"text": "kph",
-		"type": "speed",
-		"preoffset": 0,
-		"multiplier": 0.27777777778,
-		"postoffset": 0
-	},
-	{
-		"id": "m/s",
-		"text": "m/s",
-		"type": "speed",
-		"preoffset": 0,
-		"multiplier": 1,
-		"postoffset": 0
-	},
-	{
-		"id": "ft/s",
-		"text": "ft/s",
-		"type": "speed",
-		"preoffset": 0,
-		"multiplier": 0.3048,
-		"postoffset": 0
-	},
-	{
-		"id": "w",
-		"text": "Watt",
-		"type": "power",
-		"preoffset": 0,
-		"multiplier": 1,
-		"postoffset": 0
-	},
-	{
-		"id": "kw",
-		"text": "kW",
-		"type": "power",
-		"preoffset": 0,
-		"multiplier": 1000,
-		"postoffset": 0
-	},
-	{
-		"id": "hp",
-		"text": "hp",
-		"type": "power",
-		"preoffset": 0,
-		"multiplier": 745.69987,
-		"postoffset": 0
-	}
+	{"id": "in",   "text": "in",      "type": "length", "preoffset": 0,   "multiplier": 0.0254,        "postoffset": 0},
+	{"id": "ft",   "text": "ft",      "type": "length", "preoffset": 0,   "multiplier": 0.3048,        "postoffset": 0},
+	{"id": "mm",   "text": "mm",      "type": "length", "preoffset": 0,   "multiplier": 0.001,         "postoffset": 0},
+	{"id": "m",    "text": "m",       "type": "length", "preoffset": 0,   "multiplier": 1,             "postoffset": 0},
+	{"id": "km",   "text": "km",      "type": "length", "preoffset": 0,   "multiplier": 1000,          "postoffset": 0},
+	{"id": "mi",   "text": "mi",      "type": "length", "preoffset": 0,   "multiplier": 1609.344,      "postoffset": 0},
+	{"id": "c",    "text": "&#176;C", "type": "temp",   "preoffset": 0,   "multiplier": 1,             "postoffset": 273.15},
+	{"id": "f",    "text": "&#176;F", "type": "temp",   "preoffset": -32, "multiplier": 5/9,           "postoffset": 273.15},
+	{"id": "k",    "text": "Kelvin",  "type": "temp",   "preoffset": 0,   "multiplier": 1,             "postoffset": 0},
+	{"id": "mph",  "text": "mph",     "type": "speed",  "preoffset": 0,   "multiplier": 0.44704,       "postoffset": 0},
+	{"id": "kph",  "text": "kph",     "type": "speed",  "preoffset": 0,   "multiplier": 0.27777777778, "postoffset": 0},
+	{"id": "m/s",  "text": "m/s",     "type": "speed",  "preoffset": 0,   "multiplier": 1,             "postoffset": 0},
+	{"id": "ft/s", "text": "ft/s",    "type": "speed",  "preoffset": 0,   "multiplier": 0.3048,        "postoffset": 0},
+	{"id": "w",    "text": "Watt",    "type": "power",  "preoffset": 0,   "multiplier": 1,             "postoffset": 0},
+	{"id": "kw",   "text": "kW",      "type": "power",  "preoffset": 0,   "multiplier": 1000,          "postoffset": 0},
+	{"id": "hp",   "text": "hp",      "type": "power",  "preoffset": 0,   "multiplier": 745.69987,     "postoffset": 0}
 ];
 
 var tempA = "";

@@ -1,22 +1,289 @@
+<!DOCTYPE html>
 <html>
 <head>
-<script src="papaparse.min.js"></script>
-<script>
-function populateThread(){
-	// Papa.parse("https://jeff93063.github.io/tapdrill/tapdrill.csv", {
-	Papa.parse("./tapdrill.csv", {
-		download: true,
-		complete: function(results) {
-			// let r = Math.floor(Math.random() * (results.data.length-1) + 1);
-			document.getElementById("videotitle").innerHTML = results.data[100][2];
-			// document.getElementById("videotitle").innerHTML = "eee";
-
-		}
-	});
+<style>
+html {
+	height:100%;
+	font-family:sans;
+	font-size:min(7vw, 8vh);
 }
+body {
+	background-color:#606060;
+	color:white;
+	height:100%;
+	margin:0;
+	padding:0;
+}
+select {
+	background-color:#000000;
+	color:#ffffff;
+	min-width:2rem;
+/* 	width:100%; */
+	border:0px;
+	border-radius:.5rem;
+	padding:.5rem;
+	/* fixes problem where neutralinojs shows SELECT elements with a native-looking overlay and ignores css background color */
+	appearance:unset;
+	padding-right:1rem;
+	background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+	background-repeat: no-repeat;
+	background-position-x: 100%;
+	background-position-y: 50%;
+	font-size: 1rem;
+}
+div#output {
+	font-size:.75rem;
+}
+table {
+	border-collapse:collapse;
+	margin-left:auto;
+	margin-right:auto;
+}
+th, td {
+	border:1px solid white;
+}
+th {
+	font-size:.5rem;
+	text-align:right;
+}
+</style>
+<script type="text/javascript">
+function $(id) { return document.getElementById(id); }
+let activeData = [];
+
+var inchData = [
+	// 0:Size, 1:TPI, 2:Drill Al, 3:Drill Stl, 4:Clearance Close, 5:Clearance Std,
+	// 6:Class, 7:Helicoil Drill Al, 8:Helicoil Drill Stl, 9:AKA, 10:Minor
+	['0',     80, 0.0469,   0.052,    0.0635,   0.07,    "fine",      ,             , 0.06,   0.0447],
+	['1',     64, 0.0595,   0.0625,   0.076,    0.081,   "coarse",    0.0785,  0.081, 0.073,  0.0538],
+	['1',     72, 0.0595,   0.0635,   0.076,    0.081,   "fine",      ,             , 0.073,  0.056 ],
+	['2',     56, 0.07,     0.073,    0.089,    0.096,   "coarse",    0.0938,  0.096, 0.086,  0.0641],
+	['2',     64, 0.07,     0.076,    0.089,    0.096,   "fine",      0.0925, 0.0925, 0.086,  0.0668],
+	['3',     48, 0.0785,   0.086,    0.104,    0.11,    "coarse",    0.1065, 0.1094, 0.099,  0.0734],
+	['3',     56, 0.082,    0.089,    0.104,    0.11,    "fine",      0.104,  0.1065, 0.099,  0.0771],
+	['4',     40, 0.089,    0.096,    0.116,    0.1285,  "coarse",    0.12,     0.12, 0.112,  0.0813],
+	['4',     48, 0.0935,   0.098,    0.116,    0.1285,  "fine",      0.1181,   0.12, 0.112,  0.0864],
+	['5',     40, 0.1015,   0.1094,   0.1285,   0.136,   "coarse",    0.1339,  0.136, 0.125,  0.0943],
+	['5',     44, 0.104,    0.11,     0.1285,   0.136,   "fine",      ,             , 0.125,  0.0971],
+	['6',     32, 0.1065,   0.116,    0.144,    0.1495,  "coarse",    0.147,  0.1495, 0.138,  0.0997],
+	['6',     40, 0.113,    0.12,     0.144,    0.1495,  "fine",      0.147,  0.1495, 0.138,  0.1073],
+	['8',     32, 0.136,    0.144,    0.1695,   0.177,   "coarse",    0.173,   0.177, 0.164,  0.1257],
+	['8',     36, 0.136,    0.147,    0.1695,   0.177,   "fine",      0.173,   0.177, 0.164,  0.1299],
+	['10',    24, 0.1495,   0.161,    0.196,    0.201,   "coarse",    0.2031, 0.2055, 0.19,   0.1389],
+	['10',    32, 0.159,    0.1695,   0.196,    0.201,   "fine",      0.201,  0.2031, 0.19,   0.1517],
+	['12',    24, 0.177,    0.189,    0.221,    0.228,   "coarse",    0.228,   0.228, 0.216,  0.1649],
+	['12',    28, 0.182,    0.1935,   0.221,    0.228,   "constant",  ,             , 0.216,  0.1722],
+	['12',    32, 0.185,    0.196,    0.221,    0.228,   "extrafine", ,             , 0.216,  0.1777],
+	['1/4',   20, 0.201,    0.2188,   0.257,    0.266,   "coarse",    0.266,  0.266 , 0.25,   0.1887],
+	['1/4',   28, 0.213,    0.228,    0.257,    0.266,   "fine",      0.261,  0.2638, 0.25,   0.2062],
+	['1/4',   32, 0.2188,   0.228,    0.257,    0.266,   "extrafine", ,             , 0.25,   0.2117],
+	['5/16',  18, 0.257,    0.277,    0.323,    0.332,   "coarse",    0.332,  0.332 , 0.3125, 0.2443],
+	['5/16',  24, 0.272,    0.2812,   0.323,    0.332,   "fine",      0.3281, 0.3281, 0.3125, 0.2614],
+	['5/16',  32, 0.2812,   0.29,     0.323,    0.332,   "extrafine", ,             , 0.3125, 0.2742],
+	['3/8',   16, 0.3125,   0.332,    0.386,    0.397,   "coarse",    0.397,  0.397 , 0.375,  0.2983],
+	['3/8',   24, 0.332,    0.348,    0.386,    0.397,   "fine",      0.3906, 0.3906, 0.375,  0.3239],
+	['3/8',   32, 0.3438,   0.358,    0.386,    0.397,   "extrafine", ,             , 0.375,  0.3367],
+	['7/16',  14, 0.368,    0.3906,   0.4531,   0.4687,  "coarse",    0.4531, 0.4531, 0.4375, 0.3499],
+	['7/16',  20, 0.3906,   0.4062,   0.4531,   0.4687,  "fine",      0.4531, 0.4531, 0.4375, 0.3762],
+	['7/16',  28, 0.404,    0.413,    0.4531,   0.4687,  "extrafine", ,             , 0.4375, 0.3937],
+	['1/2',   13, 0.4219,   0.4531,   0.5156,   0.5312,  "coarse",    0.5156, 0.5312, 0.5,    0.4056],
+	['1/2',   20, 0.4531,   0.4688,   0.5156,   0.5312,  "fine",      0.5156, 0.5156, 0.5,    0.4387],
+	['1/2',   28, 0.4688,   0.4688,   0.5156,   0.5312,  "extrafine", ,             , 0.5,    0.4562],
+	['9/16',  12, 0.4844,   0.5156,   0.5781,   0.5938,  "coarse",    0.5781, 0.5938, 0.5625, 0.4603],
+	['9/16',  18, 0.5156,   0.5312,   0.5781,   0.5938,  "fine",      0.5781, 0.5781, 0.5625, 0.4943],
+	['9/16',  24, 0.5156,   0.5312,   0.5781,   0.5938,  "extrafine", ,             , 0.5625, 0.5114],
+	['5/8',   11, 0.5312,   0.5625,   0.6406,   0.6562,  "coarse",    0.6562, 0.6562, 0.625,  0.5135],
+	['5/8',   18, 0.5781,   0.5938,   0.6406,   0.6562,  "fine",      0.6406, 0.6406, 0.625,  0.5568],
+	['5/8',   24, 0.5781,   0.5938,   0.6406,   0.6562,  "extrafine", ,             , 0.625,  0.5739],
+	['11/16', 24, 0.6406,   0.6562,   0.7031,   0.7188,  "extrafine", ,             , 0.6875, 0.6364],
+	['3/4',   10, 0.6562,   0.6875,   0.7656,   0.7812,  "coarse",    0.7812, 0.7812, 0.75,   0.6273],
+	['3/4',   16, 0.6875,   0.7031,   0.7656,   0.7812,  "fine",      0.7656, 0.7656, 0.75,   0.6733],
+	['3/4',   20, 0.7031,   0.7188,   0.7656,   0.7812,  "extrafine", ,             , 0.75,   0.6887],
+	['13/16', 20, 0.7656,   0.7812,   0.8281,   0.8438,  "extrafine", ,             , 0.8125, 0.7512],
+	['7/8',   9,  0.7656,   0.7969,   0.8906,   0.9062,  "coarse",    0.9062, 0.9062, 0.875,  0.7387],
+	['7/8',   14, 0.8125,   0.8281,   0.8906,   0.9062,  "fine",      0.8906, 0.8906, 0.875,  0.7874],
+	['7/8',   20, 0.8281,   0.8438,   0.8906,   0.9062,  "extrafine", ,             , 0.875,  0.8137],
+	['15/16', 20, 0.8906,   0.9062,   0.9531,   0.9688,  "extrafine", ,             , 0.9375, 0.8762],
+	['1',     8,  0.875,    0.9219,   1.0156,   1.0313,  "coarse",    1.0312, 1.0312, 1,      0.8466],
+	['1',     12, 0.9375,   0.9531,   1.0156,   1.0313,  "fine",      1.0156, 1.0312, 1,      0.8978],
+	['1',     14, 0.9375,   ,         ,         ,        "fine",      1.0156, 1.0312, 1,            ],
+	['1',     20, 0.9531,   0.9688,   1.0156,   1.0313,  "extrafine", ,             , 1,      0.9387],
+	['1-1/8', 7,  0.984375, 1.03125,  1.140625, 1.15625, "coarse",    1.1719, 1.1719, 1.125,        ],
+	['1-1/8', 12, 1.046875, 1.078125, 1.140625, 1.15625, "fine",      1.1406, 1.1562, 1.125,        ],
+	['1-1/4', 7,  1.109375, 1.15625,  1.265625, 1.28125, "coarse",    1.2969, 1.2969, 1.25,         ],
+	['1-1/4', 12, 1.171875, 1.203125, 1.265625, 1.28125, "fine",      1.2656, 1.2812, 1.25,         ],
+	['1-3/8', 6,  1.21875,  1.265625, 1.390625, 1.40625, "coarse",    1.4219, 1.4219, 1.375,        ],
+	['1-3/8', 12, 1.296875, 1.328125, 1.390625, 1.40625, "fine",      1.3906, 1.4062, 1.375,        ],
+	['1-1/2', 6,  1.34375,  1.390625, 1.515625, 1.53125, "coarse",    1.5469, 1.5469, 1.5,          ],
+	['1-1/2', 12, 1.421875, 1.4375,   1.515625, 1.53125, "fine",      1.5156, 1.5312, 1.5,          ]
+];
+
+var metricData = [
+	// 0:Size, 1:Pitch, 2:Drill Al, 3:Drill Stl, 4:Clearance Close,
+	// 5:Clearance Std, 6:Class, 7:Helicoil Drill Al, 8:Helicoil Drill Stl
+	[1,   0.25, 0.75,  ,      ,,"coarse",,],
+	[1.1, 0.25, 0.85,  ,      ,,"coarse",,],
+	[1.2, 0.25, 0.95,  ,      ,,"coarse",,],
+	[1.4, 0.3,  1.1,   ,      ,,"coarse",,],
+	[1.5, 0.35, 1.15,  1.25,  1.6,1.65,"coarse",,],
+	[1.6, 0.35, 1.25,  1.35,  1.7,1.75,"coarse",,],
+	[1.7, 0.35, 1.3,   ,      ,,"coarse",,],
+	[1.8, 0.35, 1.45,  1.55,  1.9,2,"coarse",,],
+	[2,   0.4,  1.6,   1.75,  2.1,2.2,"coarse",2.1,2.1],
+	[2,   0.45, 1.55,  1.7,   2.1,2.2,"coarse",,],
+	[2.2, 0.45, 1.75,  1.9,   2.3,2.4,"coarse",2.3,2.35],
+	[2.5, 0.45, 2.05,  2.2,   2.65,2.75,"coarse",2.55,2.65],
+	[3,   0.5,  2.5,   2.7,   3.15,3.3,"coarse",3.15,3.2],
+	[3,   0.6,  2.4,   2.6,   3.15,3.3,"coarse",,],
+	[3.5, 0.6,  2.9,   3.1,   3.7,3.85,"coarse",3.7,3.7],
+	[4,   0.35, 3.6,   ,      ,,"fine",,],
+	[4,   0.5,  3.5,   ,      ,,"fine",,],
+	[4,   0.7,  3.3,   3.5,   4.2,4.4,"coarse",4.2,4.25],
+	[4,   0.75, 3.25,  3.5,   4.2,4.4,"coarse",,],
+	[4.5, 0.75, 3.75,  4,     4.75,5,"coarse",,],
+	[5,   0.5,  4.5,   ,      ,,"fine",,],
+	[5,   0.8,  4.2,   4.5,   5.25,5.5,"coarse",5.2,5.3],
+	[5,   0.9,  4.1,   4.4,   5.25,5.5,"coarse",,],
+	[5,   1,    4,     4.4,   5.25,5.5,,,],
+	[5.5, 0.9,  4.6,   4.9,   5.8,6.1,,,],
+	[6,   0.5,  5.5,   ,      ,,"fine",,],
+	[6,   0.75, 5.25,  5.5,   6.3,6.6,"fine",,],
+	[6,   1,    5,     5.4,   6.3,6.6,"coarse",6.25,6.3],
+	[7,   0.75, 6.25,  6.5,   7.4,7.7,"fine",,],
+	[7,   1,6,  6.4,   7.4,   7.7,"coarse",7.25,7.3],
+	[8,   0.5,  7.5,   ,      ,,"fine",,],
+	[8,   0.75, 7.25,  ,      ,,"fine",,],
+	[8,   1,    7,     7.4,   8.4,8.8,"fine",8.25,8.3],
+	[8,   1.25, 6.8,   7.2,   8.4,8.8,"coarse",8.3,8.4],
+	[9,   1,    8,     8.4,   9.5,9.9,"fine",,],
+	[9,   1.25, 7.8,   8.2,   9.5,9.9,"coarse",,],
+	[10,  0.75, 9.25,  ,      ,,"fine",,],
+	[10,  1,    9,     9.4,   10.5,11,"fine",10.25,10.25],
+	[10,  1.25, 8.8,   9.2,   10.5,11,"fine",10.25,10.25],
+	[10,  1.5,  8.5,   9,     10.5,11,"coarse",10.5,10.5],
+	[11,  1,    10,    ,      ,,"fine",,],
+	[11,  1.5,  9.5,   10,    11.6,12.1,"coarse",,],
+	[12,  0.75, 11.25, ,      ,,"fine",,],
+	[12,  1,    11,    ,      ,,"fine",,],
+	[12,  1.25, 10.8,  11.2,  12.6,13.2,,12.25,12.25],
+	[12,  1.5,  10.5,  11,    12.6,13.2,"fine",12.25,12.5],
+	[12,  1.75, 10.3,  10.9,  12.6,13.2,"coarse",12.5,12.5],
+	[14,  1,    13,    ,      ,,"fine",,],
+	[14,  1.25, 12.8,  13.2,  14.75,15.5,"fine",,],
+	[14,  1.5,  12.5,  13,    14.75,15.5,"fine",14.25,14.5],
+	[14,  2,    12.1,  12.7,  14.75,15.5,"coarse",14.5,14.5],
+	[15,  1.5,  13.5,  14,    15.75,16.5,,,],
+	[16,  1,    15,    ,      ,,"fine",,],
+	[16,  1.5,  14.5,  15,    16.75,17.5,"fine",16.25,16.5],
+	[16,  2,    14,    14.75, 16.75,17.5,"coarse",16.5,16.5],
+	[17,  1.5,  15.5,  16,    18,18.5,,,],
+	[18,  1,    17,    ,      ,,"fine",,],
+	[18,  1.5,  16.5,  17,19, 20,,18.25,18.5],
+	[18,  2,    16,    16.75, 19,20,"fine",18.5,18.5],
+	[18,  2.5,  15.5,  16.5,  19,20,"coarse",18.75,18.75],
+	[19,  2.5,  16.5,  17.5,  20,21,,,],
+	[20,  1,    19,    ,      ,,"fine",,],
+	[20,  1.5,  18.5,  19,    21,22,,20.25,20.5],
+	[20,  2,    18,    18.5,  21,22,,20.5,20.5],
+	[20,  2.5,  17.5,  18.5,  21,22,,20.75,20.75],
+	[22,  1,    21,    ,      ,,"fine",,],
+	[22,  1.5,  20.5,  ,      ,,"fine",22.25,22.5],
+	[22,  2,    20,    ,      ,,"fine",22.5,22.5],
+	[22,  2.5,  19.5,  ,      ,,"coarse",22.75,22.75],
+	[24,  1.5,  22.5,  ,      ,,"fine",,],
+	[24,  2,    22,    ,      ,,"fine",24.5,24.5],
+	[24,  3,    21,    ,      ,,"coarse",24.75,24.75],
+	[26,  1.5,  24.5,  ,      ,,"fine",,],
+	[27,  1.5,  25.5,  ,      ,,"fine",,],
+	[27,  2,    25,    ,      ,,"fine",27.5,27.5],
+	[27,  3,    24,    ,      ,,"coarse",27.75,27.75],
+	[28,  1.5,  26.5,  ,      ,,"fine",,],
+	[30,  1.5,  28.5,  ,      ,,"fine",,],
+	[30,  2,    28,    ,      ,,"fine",30.5,30.5],
+	[30,  3.5,  26.5,  ,      ,,"coarse",31,31],
+	[33,  2,    31,    ,      ,,"fine",33.5,33.5],
+	[33,  3.5,  29.5,  ,      ,,"coarse",34,34],
+	[36,  2,    ,      ,      ,,"fine",36.5,36.5],
+	[36,  3,    33,    ,      ,,"fine",37,37],
+	[36,  4,    32,    ,      ,,"coarse",37,37],
+	[39,  2,    ,      ,      ,,"fine",39.5,39.5],
+	[39,  3,    36,    ,      ,,"fine",40,40],
+	[39,  4,    35,    ,      ,,"coarse",40,40]
+];
+
+// console.log(inchData[7][0]);
+// console.log(metricData[7][6]);
+
+function onlyUnique(value, index, array) {
+	return array.indexOf(value) === index;
+}
+
+function selectUnits() {
+	if($("inchmetric").value == "inch"){
+		activeData = inchData;
+		$("prefix").innerHTML = "";
+		$("dash").innerHTML = "—";
+	}
+	else if($("inchmetric").value == "metric"){
+		activeData = metricData;
+		$("prefix").innerHTML = "M";
+		$("dash").innerHTML = "x";
+	}
+	initSizeMenu();
+}
+
+function initSizeMenu() {
+	$("size").innerHTML = "";
+	let allSizes = [];
+	for(i=0; i<activeData.length; i++){
+		allSizes.push(activeData[i][0]);
+	}
+	let uniqueSizes = allSizes.filter(onlyUnique);
+	for(j=0; j<uniqueSizes.length; j++){
+		$("size").innerHTML += "<option value='" + uniqueSizes[j] + "'>" + uniqueSizes[j] + "</option>";
+	}
+	initPitchMenu();
+}
+
+function initPitchMenu(){
+	$("pitch").innerHTML = "";
+	for(i=0; i<activeData.length; i++){
+		if(activeData[i][0] == $("size").value){
+			$("pitch").innerHTML += "<option value='" + activeData[i][1] + "'>" + activeData[i][1] + "</option>";
+		}
+	}
+	selectThread();
+}
+
+function selectThread(){
+	for(i=0; i<activeData.length; i++){
+		if(activeData[i][0] == $("size").value && activeData[i][1] == $("pitch").value){
+			let outString = "<table>";
+			outString += "<tr><th>Drill Size (Al)</th><td>" + activeData[i][2] + "</td></tr>";
+			outString += "<tr><th>Drill Size (Stl)</th><td>" + activeData[i][3] + "</td></tr>";
+			if (typeof activeData[i][7] !== 'undefined'){
+				outString += "<tr><th>Helicoil Drill (Al)</th><td>" + activeData[i][7] + "</td></tr>";
+			}
+			if (typeof activeData[i][8] !== 'undefined'){
+				outString += "<tr><th>Helicoil Drill (Stl)</th><td>" + activeData[i][8] + "</td></tr>";
+			}
+			outString += "<tr><th>Clearance Drill (Close)</th><td>" + activeData[i][4] + "</td></tr>";
+			outString += "<tr><th>Clearance Drill (Standard)</th><td>" + activeData[i][5] + "</td></tr>";
+			outString += "</table>";
+			$("output").innerHTML = outString;
+		}
+	}
+}
+
 </script>
 </head>
-<body onload="populateThread();">
-<div id="videotitle"></div>
+<body onLoad="selectUnits();">
+<div></div>
+<select id="inchmetric" onChange="selectUnits();">
+	<option value="inch">Inch</option>
+	<option value="metric">Metric</option>
+</select>
+<span id="prefix"></span><select id="size" onChange="initPitchMenu();"></select><span id="dash">—</span><select id="pitch" onChange="selectThread();"></select>
+<div id="output"></div>
 </body>
 </html>
