@@ -16,7 +16,7 @@
 	<meta name="darkreader-lock">
 	<meta name="color-scheme" content="only light">
 	<meta name="viewport" content="width=device-width, interactive-widget=resizes-content, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-<style type="text/css">
+	<style type="text/css">
 html {
 	height:100%;
 	font-family:sans;
@@ -81,7 +81,7 @@ th {
 	text-align:right;
 	border-right:2px solid white;
 }
-</style>
+	</style>
 <script type="text/javascript">
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function() {
@@ -282,6 +282,7 @@ function onlyUnique(value, index, array) {
 }
 
 function selectUnits() {
+	console.log("ran selectUnits()");
 	if($("inchmetric").value == "inch"){
 		activeData = inchData;
 		$("prefix").innerHTML = "";
@@ -297,6 +298,7 @@ function selectUnits() {
 }
 
 function initialize() { //grab all values from cookie if it exists
+	console.log("ran initialize()");
 	if(getCookie("inchmetric")){
 		console.log("inchmetric exists in cookie");
 		for(m of $("inchmetric").options){
@@ -307,11 +309,10 @@ function initialize() { //grab all values from cookie if it exists
 		}
 	}
 	selectUnits();
-
-
 }
 
 function initSizeMenu() {
+	console.log("ran initSizeMenu()");
 	$("size").innerHTML = "";
 	let allSizes = [];
 	for(i=0; i<activeData.length; i++){
@@ -332,8 +333,9 @@ function initSizeMenu() {
 }
 
 function initPitchMenu(){
-	$("pitch").innerHTML = "";
+	console.log("ran initPitchMenu()");
 	setCookie("size",$("size").value,99);
+	$("pitch").innerHTML = "";
 	for(i=0; i<activeData.length; i++){
 		if(activeData[i][0] == $("size").value){
 			$("pitch").innerHTML += "<option value='" + activeData[i][1] + "'>" + activeData[i][1] + "</option>";
@@ -359,6 +361,7 @@ function check(item){
 }
 
 function selectThread(){
+	console.log("ran selectThread()");
 	setCookie("pitch",$("pitch").value,99);
 	for(i=0; i<activeData.length; i++){
 		if(activeData[i][0] == $("size").value && activeData[i][1] == $("pitch").value){
