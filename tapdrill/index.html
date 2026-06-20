@@ -307,20 +307,8 @@ function initialize() { //grab all values from cookie if it exists
 		}
 	}
 	selectUnits();
-	if(getCookie("size")){
-		for(m of $("size").options){
-			if(getCookie("size") == m.value){
-				m.selected = true;
-			}
-		}
-	}
-	if(getCookie("pitch")){
-		for(m of $("pitch").options){
-			if(getCookie("pitch") == m.value){
-				m.selected = true;
-			}
-		}
-	}
+
+
 }
 
 function initSizeMenu() {
@@ -333,6 +321,13 @@ function initSizeMenu() {
 	for(j=0; j<uniqueSizes.length; j++){
 		$("size").innerHTML += "<option value='" + uniqueSizes[j] + "'>" + uniqueSizes[j] + "</option>";
 	}
+	if(getCookie("size")){
+		for(m of $("size").options){
+			if(getCookie("size") == m.value){
+				m.selected = true;
+			}
+		}
+	}
 	initPitchMenu();
 }
 
@@ -342,6 +337,13 @@ function initPitchMenu(){
 	for(i=0; i<activeData.length; i++){
 		if(activeData[i][0] == $("size").value){
 			$("pitch").innerHTML += "<option value='" + activeData[i][1] + "'>" + activeData[i][1] + "</option>";
+		}
+	}
+	if(getCookie("pitch")){
+		for(m of $("pitch").options){
+			if(getCookie("pitch") == m.value){
+				m.selected = true;
+			}
 		}
 	}
 	selectThread();
