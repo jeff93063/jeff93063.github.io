@@ -1,3 +1,10 @@
+function $(id) { return document.getElementById(id); }
+
+window.addEventListener("hashchange", () => {
+	// console.log("The hash has changed!");
+	initPage();
+});
+
 const inchmm = .039370079;
 const fracPrec = 64;
 const drills = [[0.0019,"#107"],[0.0023,"#106"],[0.0027,"#105"],[0.0031,"#104"],[0.0035,"#103"],[0.0039,"#102"],[0.0043,"#101"],
@@ -37,11 +44,24 @@ function reduce(num, denom){
 	}
 }
 
+function initPage() {
+	if(window.location.hash && !isNaN(window.location.hash.substr(1))){
+		$("numIn").value = window.location.hash.substr(1);
+	}
+	else {
+		$("numIn").value = .31;
+	}
+	calculate();
+}
+
 function calculate() {
+	window.location.hash = "#" + $("numIn").value;
 	document.getElementById("svg").innerHTML = "<path vector-effect='non-scaling-stroke' fill='none' d='m 0,50 h 10' />";
 	let nearby = [];
 	let numIn = parseFloat(document.getElementById("numIn").value);
 	// ========METRIC==========
+	// Kevin says they don't use metric drills
+
 	let prevMetric = Math.floor(numIn / inchmm);
 	let nextMetric = Math.ceil(numIn / inchmm);
 	let nearestMetric = Math.round(numIn / inchmm);
@@ -54,6 +74,7 @@ function calculate() {
 		nearby.push([prevMetric*inchmm,prevMetric + " mm"]);
 		nearby.push([nextMetric*inchmm,nextMetric + " mm"]);
 	}
+
 	// =========FRACTIONAL==========
 	let nextInch = Math.ceil(numIn);
 	for (i=0;i<(fracPrec * nextInch);i++){
