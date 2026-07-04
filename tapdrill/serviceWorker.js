@@ -1,4 +1,4 @@
-const staticCacheName = "tapdrill-static-v02";
+const staticCacheName = "tapdrill-static-v03";
 const assets = [
 	"/tapdrill/",
 	"/tapdrill/index.html"
