@@ -32,7 +32,7 @@ async function init(){
 	}
 	let butOpenFile = document.getElementById("butOpenFile");
 	butOpenFile.addEventListener('click', async () => {
-		// is the filetype filter making it so I can't pick file on android?
+		// CSV mime type doesn't work right on Android, so it blocks selecting the file
 		// [fileHandle] = await window.showOpenFilePicker({types: [ {description: "CSV", accept: { "text/csv": [".csv"]}}]});
 		[fileHandle] = await window.showOpenFilePicker();
 		await set('file', fileHandle); // INDEXEDDB THING
@@ -87,6 +87,7 @@ function parseCSV (data) {
 
 function randVid(){
 	let r = Math.floor(Math.random() * (oneyData.length-1) + 1);
+	console.log("oneyData.length=" + oneyData.length + ", r=" + r);
 	document.getElementById("videotitle").innerHTML="<img src='https://i.ytimg.com/vi/" + oneyData[r][4] + "/maxresdefault.jpg' /><br />" + oneyData[r][0] + "<br />" + oneyData[r][2] + ", " + oneyData[r][1] + "<br />" + oneyData[r][3];
 	document.getElementById("videotitle").onclick = function () { window.location.href="https://youtu.be/" + oneyData[r][4] + "?t=1s" };
 }
@@ -141,11 +142,9 @@ div {
 
 	</style>
 </head>
-<!-- <body onload="init(); randVid();"> -->
 <body>
 	<button id="randButton"><div>&#8635;</div>Random!</button>
 	<button id="videotitle"></button>
-
 	<button id="butOpenFile">open csv</button>
 </body>
 </html>
