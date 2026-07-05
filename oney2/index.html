@@ -32,7 +32,9 @@ async function init(){
 	}
 	let butOpenFile = document.getElementById("butOpenFile");
 	butOpenFile.addEventListener('click', async () => {
-		[fileHandle] = await window.showOpenFilePicker({types: [ {description: "CSV", accept: { "text/csv": [".csv"]}}]});
+		// is the filetype filter making it so I can't pick file on android?
+		// [fileHandle] = await window.showOpenFilePicker({types: [ {description: "CSV", accept: { "text/csv": [".csv"]}}]});
+		[fileHandle] = await window.showOpenFilePicker();
 		await set('file', fileHandle); // INDEXEDDB THING
 		const permis = await fileHandle.requestPermission();
 		const file = await fileHandle.getFile();
