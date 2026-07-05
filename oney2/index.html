@@ -70,19 +70,6 @@ button.addEventListener('click', async () => {
 });
 */
 
-
-/* FLEXIBLE CSV PARSER BY NVRM */
-/*
-const parseCSV = (csv) => {
-  csv = csv.replaceAll(";", "  ")
-  return csv.split('\n')
-    .map(row => row.replace(/ |  |\t/g, ',')
-    .split(',')
-    .filter(r => r != '')
-  )
-}
-*/
-
 function parseCSV (data) {
   const re = /(,|\r?\n|\r|^)(?:"([^"]*(?:""[^"]*)*)"|([^,\r\n]*))/gi
   const result = [[]]
