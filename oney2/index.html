@@ -73,7 +73,7 @@ button.addEventListener('click', async () => {
 */
 
 function parseCSV (data) {
-	dataClean = data.trim(); //remove trailing newlines
+	let dataClean = data.trim(); //remove trailing newlines
 	dataClean = dataClean.substring(dataClean.indexOf("\n") + 1); //remove first (header) row
   const re = /(,|\r?\n|\r|^)(?:"([^"]*(?:""[^"]*)*)"|([^,\r\n]*))/gi
   const result = [[]]
