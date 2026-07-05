@@ -23,7 +23,7 @@ let fileHandle;
 async function init(){
 	const readFileHandle = await get('file');
 	if(readFileHandle){
-		const permis = await fileHandle.requestPermission();
+		const permis = await readFileHandle.requestPermission();
 		const readFile = await readFileHandle.getFile();
 		const contents = await readFile.text();
 		console.log("got file");
