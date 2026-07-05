@@ -23,6 +23,7 @@ let fileHandle;
 async function init(){
 	const readFileHandle = await get('file');
 	if(readFileHandle){
+		const permis = await fileHandle.requestPermission();
 		const readFile = await readFileHandle.getFile();
 		const contents = await readFile.text();
 		console.log("got file");
@@ -89,7 +90,7 @@ function parseCSV (data) {
 
 function randVid(){
 	let r = Math.floor(Math.random() * (oneyData.length));
-	console.log("oneyData.length=" + oneyData.length + ", r=" + r);
+	// console.log("oneyData.length=" + oneyData.length + ", r=" + r);
 	document.getElementById("videotitle").innerHTML="<img src='https://i.ytimg.com/vi/" + oneyData[r][4] + "/maxresdefault.jpg' /><br />" + oneyData[r][0] + "<br />" + oneyData[r][2] + ", " + oneyData[r][1] + "<br />" + oneyData[r][3];
 	document.getElementById("videotitle").onclick = function () { window.location.href="https://youtu.be/" + oneyData[r][4] + "?t=1s" };
 }
