@@ -88,7 +88,7 @@ function parseCSV (data) {
 }
 
 function randVid(){
-	let r = Math.floor(Math.random() * (oneyData.length-1) + 1);
+	let r = Math.floor(Math.random() * (oneyData.length));
 	console.log("oneyData.length=" + oneyData.length + ", r=" + r);
 	document.getElementById("videotitle").innerHTML="<img src='https://i.ytimg.com/vi/" + oneyData[r][4] + "/maxresdefault.jpg' /><br />" + oneyData[r][0] + "<br />" + oneyData[r][2] + ", " + oneyData[r][1] + "<br />" + oneyData[r][3];
 	document.getElementById("videotitle").onclick = function () { window.location.href="https://youtu.be/" + oneyData[r][4] + "?t=1s" };
