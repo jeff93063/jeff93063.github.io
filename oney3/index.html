@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>OneyPlays Randomizer 3</title>
+	<link rel="manifest" href="manifest.json">
+
+	<!-- from realfavicongenerator.net -->
+	<link rel="icon" type="image/png" href="icons/96.png" sizes="96x96" />
+	<link rel="icon" type="image/jpeg" href="icons/favicon.jpg" />
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
+	<meta name="theme-color" content="#606060" />
+	<!--							   -->
+
+	<meta charset="UTF-8" />
+	<meta name="darkreader-lock" />
+	<meta name="color-scheme" content="only light" />
+	<meta name="viewport" content="width=device-width, interactive-widget=resizes-content, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+	<script type="module">
+let oneyData;
+function init(){
+	if ("launchQueue" in window) {
+		launchQueue.setConsumer(async (launchParams) => {
+			for (const file of launchParams.files) {
+				const blob = await file.getFile();
+				blob.handle = file;
+				const text = await blob.text();
+				oneyData = parseCSV(text);
+				randVid();
+			}
+		});
+	}
+}
+
+window.addEventListener('load', init);
+
+document.getElementById("randButton").addEventListener('click',randVid);
+
+function parseCSV (data) {
+	let dataClean = data.trim(); //remove trailing newlines
+	dataClean = dataClean.substring(dataClean.indexOf("\n") + 1); //remove first (header) row
+  const re = /(,|\r?\n|\r|^)(?:"([^"]*(?:""[^"]*)*)"|([^,\r\n]*))/gi
+  const result = [[]]
+  let matches
+  while ((matches = re.exec(dataClean))) {
+    if (matches[1].length && matches[1] !== ',') result.push([])
+    result[result.length - 1].push(
+      matches[2] !== undefined ? matches[2].replace(/""/g, '"') : matches[3]
+    )
+  }
+  return result
+}
+
+function randVid(){
+	let r = Math.floor(Math.random() * (oneyData.length));
+	// console.log("oneyData.length=" + oneyData.length + ", r=" + r);
+	document.getElementById("videotitle").innerHTML="<img src='https://i.ytimg.com/vi/" + oneyData[r][4] + "/maxresdefault.jpg' /><br />" + oneyData[r][0] + "<br />" + oneyData[r][2] + ", " + oneyData[r][1] + "<br />" + oneyData[r][3];
+	document.getElementById("videotitle").onclick = function () { window.location.href="https://youtu.be/" + oneyData[r][4] + "?t=1s" };
+}
+	</script>
+	<style type="text/css">
+html {
+	font-size:min(7vh, 6vw);
+}
+body {
+	font-family:sans;
+	background-color:#606060;
+	height:calc(100vh - 2 * min(5vh, 5vw));
+	margin:min(5vh, 5vw);
+	padding:0;
+	display:flex;
+	gap:min(5vh, 5vw);
+}
+
+button {
+/* 	flex-grow:1; */
+	flex:1 1 0px;
+	border-radius:.5rem;
+	background-color: #000000;
+	color: #ffffff;
+	padding:.5rem;
+	font-size: 1rem;
+}
+div {
+	font-size: 3rem;
+	color:#37d21c;
+}
+
+@media (orientation:landscape) {
+	body {
+		flex-direction:row;
+	}
+	img {
+		max-width: 80%;
+		max-height: 60%;
+	}
+}
+@media (orientation:portrait) {
+	body {
+		flex-direction:column;
+	}
+	img {
+		max-width: 80%;
+		max-height: 60%;
+	}
+}
+
+	</style>
+</head>
+<body>
+	<button id="randButton"><div>&#8635;</div>Random!</button>
+	<button id="videotitle"></button>
+</body>
+</html>
