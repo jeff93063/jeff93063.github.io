@@ -589,7 +589,7 @@ function randVid(){
 	let ytidArr = oneyData[r][4].split(",");
 	document.getElementById("videotitle").innerHTML="<img src='https://i.ytimg.com/vi/" + ytidArr[0] + "/maxresdefault.jpg' /><br />" + oneyData[r][0] + "<br />" + oneyData[r][2] + ", " + oneyData[r][1] + "<br />" + oneyData[r][3];
 	//document.getElementById("videotitle").innerHTML="https://i.ytimg.com/vi/" + ytidArr[0] + "/maxresdefault.jpg";
-	if(ytidArr.length > 0){
+	if(ytidArr.length > 1){
 		//http://www.youtube.com/watch_videos?video_ids=rToD75vUAjg,8sY2zgjKglY
 		document.getElementById("videotitle").onclick = function () { window.location.href="https://www.youtube.com/watch_videos?video_ids=" + oneyData[r][4]};
 	}
