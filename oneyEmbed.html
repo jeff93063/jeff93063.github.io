@@ -620,6 +620,9 @@ button {
 	padding:.5rem;
 	font-size: 1rem;
 }
+iframe {
+	flex:1 1 0px;
+}
 div {
 	font-size: 3rem;
 	color:#37d21c;
@@ -643,7 +646,7 @@ img {
 <body onload="randVid();">
 	<button onclick="randVid();"><div>&#8635;</div>Random!</button>
 	<!--<button id="videotitle"></button>-->
-	<iframe id="videoembed" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+	<iframe id="videoembed" frameborder="0" allowfullscreen></iframe>
 	<!--<button onclick="savePage();">Save</button>-->
 </body>
 </html>
