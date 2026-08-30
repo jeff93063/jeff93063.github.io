@@ -591,10 +591,11 @@ function randVid(){
 	//document.getElementById("videotitle").innerHTML="https://i.ytimg.com/vi/" + ytidArr[0] + "/maxresdefault.jpg";
 	if(ytidArr.length > 1){
 		//http://www.youtube.com/watch_videos?video_ids=rToD75vUAjg,8sY2zgjKglY
-		document.getElementById("videotitle").onclick = function () { window.location.href="https://www.youtube.com/watch_videos?video_ids=" + oneyData[r][4]};
+		// document.getElementById("videotitle").onclick = function () { window.location.href="https://www.youtube.com/watch_videos?video_ids=" + oneyData[r][4]};
+		document.getElementById("videoembed").src = "https://www.youtube.com/embed/" + oneyData[r][4] + "?t=1s";
 	}
 	else{
-	    document.getElementById("videoembed").src = "https://www.youtube.com/embed/" + oneyData[r][4] + "?t=1s";
+		document.getElementById("videoembed").src = "https://www.youtube.com/embed/" + oneyData[r][4] + "?t=1s";
     }
 }
 	</script>
