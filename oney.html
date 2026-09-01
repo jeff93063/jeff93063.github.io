@@ -11,6 +11,7 @@
 	<meta name="color-scheme" content="only light" />
 	<meta name="viewport" content="width=device-width, interactive-widget=resizes-content, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
 	<script>
+const embedMode = false;
 const oneyData = [
 	//0:Title, 1:Date, 2:Length, 3:Friends, 4:YTCode, 5:Alt
 	['Action 52', '2017-11-28', '1:04', 'Dingdong, Julian', 'GOpW3zfMATE'],
@@ -587,14 +588,26 @@ function savePage(){
 function randVid(){
 	let r = Math.floor(Math.random() * (oneyData.length-1) + 1);
 	let ytidArr = oneyData[r][4].split(",");
-	document.getElementById("videotitle").innerHTML="<img src='https://i.ytimg.com/vi/" + ytidArr[0] + "/maxresdefault.jpg' /><br />" + oneyData[r][0] + "<br />" + oneyData[r][2] + ", " + oneyData[r][1] + "<br />" + oneyData[r][3];
-	//document.getElementById("videotitle").innerHTML="https://i.ytimg.com/vi/" + ytidArr[0] + "/maxresdefault.jpg";
+	if(!embedMode){
+		document.getElementById("videotitle").innerHTML="<img src='https://i.ytimg.com/vi/" + ytidArr[0] + "/maxresdefault.jpg' /><br />" + oneyData[r][0] + "<br />" + oneyData[r][2] + ", " + oneyData[r][1] + "<br />" + oneyData[r][3];
+	}
 	if(ytidArr.length > 1){
 		//http://www.youtube.com/watch_videos?video_ids=rToD75vUAjg,8sY2zgjKglY
-		document.getElementById("videotitle").onclick = function () { window.location.href="https://www.youtube.com/watch_videos?video_ids=" + oneyData[r][4]};
+		// document.getElementById("videotitle").onclick = function () { window.location.href="https://www.youtube.com/watch_videos?video_ids=" + oneyData[r][4]};
+		if(embedMode){
+			document.getElementById("videoembed").src = "https://www.youtube.com/embed/" + ytidArr[0] + "?playlist=" + oneyData[r][4];
+		}
+		else{
+			document.getElementById("videotitle").onclick = function () { window.location.href="https://www.youtube.com/watch_videos?video_ids=" + oneyData[r][4]};
+		}
 	}
 	else{
-	    document.getElementById("videotitle").onclick = function () { window.location.href="https://youtu.be/" + oneyData[r][4] + "?t=1s" };
+		if(embedMode){
+			document.getElementById("videoembed").src = "https://www.youtube.com/embed/" + oneyData[r][4] + "?t=1s";
+		}
+		else{
+			document.getElementById("videotitle").onclick = function () { window.location.href="https://youtu.be/" + oneyData[r][4] + "?t=1s" };
+		}
     }
 }
 	</script>
@@ -620,6 +633,12 @@ button {
 	padding:.5rem;
 	font-size: 1rem;
 }
+button:first-child {
+	flex:0 1 0px;
+}
+iframe {
+	flex:1 1 0px;
+}
 div {
 	font-size: 3rem;
 	color:#37d21c;
@@ -643,6 +662,7 @@ img {
 <body onload="randVid();">
 	<button onclick="randVid();"><div>&#8635;</div>Random!</button>
 	<button id="videotitle"></button>
+	<!--<iframe id="videoembed" frameborder="0" allowfullscreen></iframe>-->
 	<!--<button onclick="savePage();">Save</button>-->
 </body>
 </html>
