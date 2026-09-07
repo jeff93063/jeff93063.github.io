@@ -1,7 +1,8 @@
 const staticCacheName = "poker-static-v4";
 const assets = [
 	"/poker/",
-	"/poker/index.html"
+	"/poker/index.html",
+	"/poker/manifest.json"
 ];
 
 self.addEventListener("install", installEvent => {
