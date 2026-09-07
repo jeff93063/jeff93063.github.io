@@ -2,6 +2,7 @@ const staticCacheName = "blackjack-static-v10";
 const assets = [
 	"/blackjack/",
 	"/blackjack/index.html",
+	"/blackjack/manifest.json",
 	"/blackjack/club.svg",
 	"/blackjack/diamond.svg",
 	"/blackjack/heart.svg",
