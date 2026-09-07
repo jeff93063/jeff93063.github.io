@@ -2,6 +2,7 @@ const staticCacheName = "units-static-v16";
 const assets = [
 	"/unitconvert/",
 	"/unitconvert/index.html",
+	"/unitconvert/manifest.json",
 	"/unitconvert/style.css",
 	"/unitconvert/unitconvert.js"
 ];
