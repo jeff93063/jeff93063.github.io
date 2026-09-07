@@ -2,6 +2,7 @@ const staticCacheName = "target-static-v1";
 const assets = [
 	"/target/",
 	"/target/index.html",
+	"/target/manifest.json",
 	"/target/Jawbone250.png",
 	"/target/pistolsights.png",
 	"/target/riflesights.png",
