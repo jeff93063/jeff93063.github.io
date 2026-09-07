@@ -1,7 +1,8 @@
-const staticCacheName = "speedfeed-static-v05";
+const staticCacheName = "speedfeed-static-v06";
 const assets = [
 	"/speedfeed/",
 	"/speedfeed/index.html",
+	"/speedfeed/manifest.json",
 	"/speedfeed/style.css",
 	"/speedfeed/speedfeed.js"
 ];
