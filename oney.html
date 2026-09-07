@@ -284,6 +284,7 @@ const oneyData = [
 	['Matrix Awakens, The', '2022-02-07', '0:22', 'Lyle, Tomar', 'omlkv9AmNHk'],
 	['Matrix, The - Path Of Neo', '2021-12-03', '1:04', 'Lyle, Tomar', 'Cn_MXLSaidk'],
 	['Max Payne', '2018-04-12', '0:12,0:10', 'Niall, Amin', 'wB4V4hBzZvE,IOOyH-5ePic'],
+	['Meccha Chameleon', '2026-06-27', '0:20,0:19,0:11', 'Tomar, Lyle, Cory', '4j_1gUwdWTk,xL7GpfALxL0,ZJy1aSKyuBQ'],
 	['Mega Man X', '2016-04-09', '1:16', 'Dingdong, Julian', 'FCKq51H04CE'],
 	['Megabonk', '2025-12-12', '1:02', 'Niall, Adam, Tomar', '1DhwPQJAFns'],
 	['Metal Gear Rising - Revengeance', '2020-05-30', '5:18', 'Lyle, Tomar', 'kBn1-7ya-wM'],
@@ -472,6 +473,7 @@ const oneyData = [
 	['Spooky\'s Jump Scare Mansion', '2019-11-11', '1:45', 'Cory, Dave', 'sbwI9Vq_bNE'],
 	['Spooky\'s Jump Scare Mansion - HD Renovation', '2020-10-21', '2:39', 'Zach, Tomar', 'I-i7jKXf86I'],
 	['Spyro The Dragon Games', '2017-05-20', '1:07', 'Dingdong, Julian', '6yLb_yx_Tpc'],
+	['Star Fox 2026', '2026-07-24', '0:22,0:20,0:32', 'Cory, Dave', 'eobPV8h_e5I,zueoJEnHs2M,4v_lH8GJfaU'],
 	['Star Trek - Bridge Crew', '2017-06-05', '0:14', 'Solo', 'lYTv4zlFHDE'],
 	['Star Wars - Obi-Wan', '2017-12-04', '0:34', 'Dingdong, Julian', 'PvryRCf0-eE'],
 	['Starfield', '2023-12-14', '0:59', 'Cory, Dave', 'G6HkQ_ufIDY'],
@@ -620,8 +622,9 @@ function search() {
 	if(term !== ""){
 		for(i=0;i<oneyData.length;i++){
 			if(oneyData[i][0].toLowerCase().indexOf(term) !== -1){
+				let ytidArr = oneyData[i][4].split(",");
 				// console.log(oneyData[i][0]);
-				$("searchResults").innerHTML += "<div><a href=\"https://www.youtube.com/watch_videos?video_ids=" + oneyData[i][4] + "\"><img src='https://i.ytimg.com/vi/" + oneyData[i][4] + "/default.jpg' />" + oneyData[i][0] + "</a></div>";
+				$("searchResults").innerHTML += "<div><a href=\"https://www.youtube.com/watch_videos?video_ids=" + oneyData[i][4] + "\"><img src='https://i.ytimg.com/vi/" + ytidArr[0] + "/default.jpg' />" + oneyData[i][0] + "</a></div>";
 			}
 		}
 	}
