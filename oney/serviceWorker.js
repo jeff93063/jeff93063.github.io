@@ -1,4 +1,4 @@
-const staticCacheName = "oney-static-v11";
+const staticCacheName = "oney-static-v12";
 const assets = [
 	"/oney/",
 	"/oney/index.html",
@@ -12,20 +12,6 @@ self.addEventListener("install", installEvent => {
 		})
 	);
 });
-
-/*
-self.addEventListener('activate', evt => {
-	evt.waitUntil(
-		caches.keys().then(keys =>{
-			//console.log(keys);
-			return Promise.all(keys
-				.filter(key => key !== staticCacheName)
-				.map(key => caches.delete(key))
-			)
-		})
-	);
-});
-*/
 
 self.addEventListener('activate', function(event) {
 	var static_cache_prefix = staticCacheName.substring(0,staticCacheName.indexOf("-"));
