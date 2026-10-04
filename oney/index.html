@@ -128,8 +128,7 @@ const oneyData = [
 	['Death Road To Canada', '2023-03-29', '2:18', 'Cory, Tomar', '8ppRwKc3wXk'],
 	['Deathloop', '2021-11-03', '0:26', 'Lyle, Tomar', 'oH4V3njpB-I'],
 	['Decap Attack', '2024-05-26', '1:16', 'Lyle, Cory', 'wCuZnIMVo74'],
-	['Demon\'s Souls (Stream) 1', '2025-09-01', '1:17', 'Dave', 'hMiGl_oIN3E'],
-	['Demon\'s Souls (Stream) 2', '2025-09-03', '2:10', 'Dave', 'JZSpc3f8Lqw'],
+	['Demon\'s Souls (Stream)', '2025-09-01', '1:17,2:10', 'Dave,Cory', 'hMiGl_oIN3E,JZSpc3f8Lqw'],
 	['Demon\'s Souls (2020 Remake Ps5)', '2020-11-28', '2:08', 'Lyle, Tomar', '_O0cPTvJ7g4'],
 	['Demon\'s Souls With Nakey Jakey', '2019-03-19', '3:39', 'NakeyJakey', 'LACXgwcMeWs', 'e8ooNRM39dk'],
 	['Descenders', '2025-07-23', '1:29', 'Cory, Dave', 'VWxKAhSHE0o'],
@@ -239,6 +238,7 @@ const oneyData = [
 	['Halo 3', '2018-05-19', '0:10', 'Dingdong, Julian', 'Z7K71hudSh8'],
 	['Halo Infinite', '2022-02-04', '1:09', 'Lyle, Tomar', 'Tdnmh1Q43Rk'],
 	['Haneko\'s Late Homework', '2024-10-21', '0:38', 'Niall, Adam, Tomar', '_jNzaPDi2pU'],
+    ['Happy Wheels', '2026-09-28', '0:20', 'Cory, Tomar', '0fiiRX7cVrA'],
 	['Harley\'s Humongous Adventure', '2024-05-04', '0:43', 'Adam, Cory', 'OLcPoZqfgfA'],
 	['Harry Potter and the Chamber of Secrets (2014)', '2014-11-06', '0:10,0:11', 'Solo', 'pmvlrFP7kBc,V5e_LseSVGI'],
 	['Harry Potter and the Chamber of Secrets (2016)', '2016-09-11', '0:12,0:11,0:12', 'Dingdong, Julian', 'wllz3DRDmy8,dfRmqIbKtMQ,JA3uWd9UsIs'],
@@ -534,7 +534,7 @@ const oneyData = [
 	['Street Fighter 6', '2023-06-21', '1:00', 'Cory, Tomar', 'u-ZCNPFOLn8'],
 	['Streets Of Fury', '2018-01-29', '0:15', 'Dingdong, Julian', 'Kd2_zkUGtCY'],
 	['Stuart Little', '2020-11-02', '0:36', 'Dingdong, Sonny', 'XU2hbYlnaGs'],
-	['Subnautica 2', '2026-05-21', '0:19,0:22,0:16', 'Cory, Lyle, Tomar', 'y1OuLLDLYbM,WTHyNSopkkM,aSSE0z-N2W0'],
+	['Subnautica 2', '2026-05-21', '0:58', 'Cory, Lyle, Tomar', 'Mh9N0rjnMoQ'],
 	['Super Battle Golf', '2026-05-11', '0:31', 'Cory, Lyle, Tomar', 'QGA9LZnAAwk'],
 	['Super Magnetic Neo', '2017-08-26', '0:41', 'Dingdong, Julian', 'upTRvTVl6-M'],
 	['Super Mario 3D Land', '2024-11-24', '2:06', 'Cory, Dave', 'MM2tYtfTrGU'],
@@ -653,9 +653,11 @@ function randVid(){
 	$("searchResults").innerHTML = "";
 	let r = Math.floor(Math.random() * (oneyData.length-1) + 1);
 	let ytidArr = oneyData[r][4].split(",");
-	let theButton = document.createElement("button");
+	let theButton = document.createElement("div");
 	$("searchResults").appendChild(theButton);
-	theButton.innerHTML="<img src='https://i.ytimg.com/vi/" + ytidArr[0] + "/hqdefault.jpg' /><br />" + oneyData[r][0] + "<br />" + oneyData[r][2] + ", " + oneyData[r][1] + "<br />" + oneyData[r][3];
+	theButton.className = "imageContainer";
+	theButton.style.cssText += 'background-image:url("https://i.ytimg.com/vi/' + ytidArr[0] + '/hqdefault.jpg");';
+	theButton.innerHTML="<div>" + oneyData[r][0] + "<div>" + oneyData[r][2] + " | " + oneyData[r][1] + " | " + oneyData[r][3] + "</div></div>";
 	if(ytidArr.length > 1){
 		theButton.onclick = function () { window.location.href="https://www.youtube.com/watch_videos?video_ids=" + oneyData[r][4]};
 	}
@@ -671,10 +673,12 @@ function search() {
 		for(i=0;i<oneyData.length;i++){
 			if(oneyData[i][0].toLowerCase().indexOf(term) !== -1){
 				let ytidArr = oneyData[i][4].split(",");
-				let theButton = document.createElement("button");
+				let theButton = document.createElement("div");
 				theButton.data = oneyData[i][4];
 				$("searchResults").appendChild(theButton);
-				theButton.innerHTML="<img src='https://i.ytimg.com/vi/" + ytidArr[0] + "/hqdefault.jpg' /><br />" + oneyData[i][0] + "<br />" + oneyData[i][2] + ", " + oneyData[i][1] + "<br />" + oneyData[i][3];
+				theButton.className = "imageContainer";
+				theButton.style.cssText += 'background-image:url("https://i.ytimg.com/vi/' + ytidArr[0] + '/hqdefault.jpg");';
+				theButton.innerHTML="<div>" + oneyData[i][0] + "<div>" + oneyData[i][2] + " | " + oneyData[i][1] + " | " + oneyData[i][3] + "</div></div>";
 				if(ytidArr.length > 1){
 					theButton.onclick = function () { window.location.href="https://www.youtube.com/watch_videos?video_ids=" + this.data};
 				}
@@ -688,7 +692,7 @@ function search() {
 	</script>
 	<style type="text/css">
 html {
-	font-size:min(7vh, 6vw);
+	font-size:min(7vh, 5vw);
 	margin:0;
 	padding:0;
 	height:100%;
@@ -701,15 +705,8 @@ body {
 	padding:.5em;
 	display:flex;
 	gap:.5em;
+	flex-direction:column;
 }
-button {
-	border-radius:.5rem;
-	background-color: #000000;
-	color: #ffffff;
-	padding:.5rem;
-	font-size: 1rem;
-}
-
 input {
 	appearance:unset;
 	box-sizing: border-box; /*fixes the problem where the 100% width with padding overlaps the container*/
@@ -721,38 +718,61 @@ input {
 	border-radius:.5rem;
 	padding:.5rem;
 	font-size: 1rem;
+	flex: 10 1 0;
 }
 button#random {
-	font-size: 3rem;
+	border-radius:.5rem;
+	background-color: #000000;
+	font-size: 2rem;
 	color:#37d21c;
+	flex: 1 1 0;
+	padding:.25rem;
+	aspect-ratio:1;
 }
 img {
-	max-width: 80%;
-	max-height: 60%;
+	width:100%;
+	height:100%;
+	object-fit:cover;
+	line-height:0;
+}
+div.imageContainer {
+	aspect-ratio:1.777778;
+	background-size:cover;
+	background-position: center;
+	border-radius:.5rem;
+}
+div.imageContainer > div {
+	color:#ffffff;
+	background-color:#000000c0;
+	border-radius: .5rem .5rem 0 0;
+	padding:.5rem;
+
+}
+div.imageContainer > div > div {
+	font-size:.75rem;
 }
 div#controls {
 	display:flex;
 	flex-direction:row;
-	gap:.5em;
+	gap:.5rem;
 }
 div#searchResults {
 	overflow:scroll;
 	display: flex; 
-	flex-direction: column;
+	gap:.25rem;
 }
 @media (orientation:landscape) {
-	body {
-		flex-direction:row;
-	}
 	div#controls {
-		flex-direction:column;
-/* 		align-items:center; */
-		justify-content:center;
+		flex:1 1 0;
+	}
+	div#searchResults {
+		flex-direction: row;
+		flex:4 1 0;
 	}
 }
 @media (orientation:portrait) {
-	body {
-		flex-direction:column;
+	div#searchResults {
+		flex-direction: column;
 	}
 }
 	</style>
