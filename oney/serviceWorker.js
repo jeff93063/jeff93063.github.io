@@ -1,4 +1,4 @@
-const staticCacheName = "oney-static-v19";
+const staticCacheName = "oney-static-v20";
 const assets = [
 	"/oney/",
 	"/oney/index.html",
